@@ -1,5 +1,5 @@
 ### PROJECT CONFIGURATION ###
-APPNAME = 'pycap2re'
+APPNAME = 'cap2re'
 VERSION = '0.1'
 top = '.'
 out = 'build'
