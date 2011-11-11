@@ -19,3 +19,4 @@
  *
  */
 
+#include "Gphoto2CameraImp.h"

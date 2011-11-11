@@ -22,4 +22,22 @@
 #ifndef GPHOTO2CAMERAMANAGER_H
 #define GPHOTO2CAMERAMANAGER_H
 
+#include "CameraManager.h"
+
+namespace gphoto2 {
+    #include <gphoto2/gphoto2.h>
+}
+
+class Gphoto2CameraManager : public CameraManager
+{
+public:
+    Gphoto2CameraManager();
+    ~Gphoto2CameraManager();
+
+    CameraPtrList   detectCameras();
+
+private:
+    gphoto2::GPContext* _context;
+};
+
 #endif // GPHOTO2CAMERAMANAGER_H

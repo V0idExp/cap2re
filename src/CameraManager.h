@@ -22,11 +22,9 @@
 #ifndef CAMERAMANAGER_H
 #define CAMERAMANAGER_H
 
-// Project includes
 #include "Camera.h"
 #include "Common.h"
 
-// System includes
 #include <vector>
 
 typedef std::vector<Camera*> CameraPtrList;

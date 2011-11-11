@@ -18,3 +18,23 @@
  * If not, see http://www.gnu.org/licenses
  *
  */
+
+#include "Gphoto2CameraManager.h"
+
+Gphoto2CameraManager::Gphoto2CameraManager():
+    _context(nullptr)
+{
+
+}
+
+Gphoto2CameraManager::~Gphoto2CameraManager()
+{
+
+}
+
+CameraPtrList
+Gphoto2CameraManager::detectCameras()
+{
+    //TODO
+}
+

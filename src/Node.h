@@ -22,10 +22,8 @@
 #ifndef NODE_H
 #define NODE_H
 
-// Project includes
 #include "Common.h"
 
-// System includes
 #include <vector>
 
 class Node;
