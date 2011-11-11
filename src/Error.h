@@ -27,8 +27,23 @@
 class ValueError : public Error
 {
 public:
-    ValueError(const String &description = String("invalid value")): _description(description) {}
-    ~ValueError() throw() {};
+    ValueError(const String &description = String()): _description("invalid value: " + description) {}
+    ~ValueError() throw() {}
+
+    virtual const char* what() const throw()
+    {
+        return _description.c_str();
+    }
+
+protected:
+    String  _description;
+};
+
+class RuntimeError : public Error
+{
+public:
+    RuntimeError(const String &description = String()): _description("runtime error: " + description) {}
+    ~RuntimeError() throw() {}
 
     virtual const char* what() const throw()
     {
