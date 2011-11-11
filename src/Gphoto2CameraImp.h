@@ -32,13 +32,19 @@ namespace gphoto2
 class Gphoto2CameraImp : public CameraImp
 {
 public:
-    virtual ~Gphoto2CameraImp();
+    Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
+    ~Gphoto2CameraImp();
 
-    virtual String      capture();
+    String      capture();
 
-    virtual void        setOption(const String &path, const String &value);
-    virtual String      getOption(const String &path) const;
-    virtual StringList  getOptionValues(const String &path) const;
+    void        setOption(const String &path, const String &value);
+    String      getOption(const String &path) const;
+    StringList  getOptionValues(const String &path) const;
+
+private:
+    gphoto2::CameraAbilities    _abilities;
+    gphoto2::Camera*            _camera;
+    gphoto2::GPContext*         _context;
 };
 
 #endif // GPHOTO2CAMERAIMP_H

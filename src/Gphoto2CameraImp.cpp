@@ -20,3 +20,39 @@
  */
 
 #include "Gphoto2CameraImp.h"
+
+Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
+    _camera(gp2Cam),
+    _context(gp2Context)
+{
+    gp_camera_get_abilities(_camera, &_abilities);
+}
+
+Gphoto2CameraImp::~Gphoto2CameraImp()
+{
+    gp_camera_unref(_camera);
+}
+
+String
+Gphoto2CameraImp::capture()
+{
+    //TODO
+}
+
+void
+Gphoto2CameraImp::setOption(const String &path, const String &value)
+{
+    //TODO
+}
+
+String
+Gphoto2CameraImp::getOption(const String &path) const
+{
+    //TDOO
+}
+
+StringList
+Gphoto2CameraImp::getOptionValues(const String &path) const
+{
+    //TODO
+}
