@@ -34,7 +34,6 @@ def configure(ctx):
     ctx.env.CXXFLAGS += ['-ggdb']
 
 def build(ctx):
-
     # Build platform-independent code
     ctx.objects(
         source = 'src/Node.cpp src/ConfigOptsTree.cpp',
@@ -52,10 +51,12 @@ def build(ctx):
     )
 
     # Build backends
-    backends = ""
+    backends = []
+    libs = []
 
     if ctx.env.HAVE_GPHOTO2 == 1:
-        backends += ' backend_gphoto2'
+        backends.append('backend_gphoto2')
+        libs.append('GPHOTO2')
 
         ctx.objects(
             source = 'src/Gphoto2CameraImp.cpp src/Gphoto2CameraManager.cpp',
@@ -65,6 +66,6 @@ def build(ctx):
     ctx.program(
         source = 'src/test.cpp',
         target = 'test',
-        use = 'Camera CameraManager ConfigOptsTree' + backends,
-        uselib = 'BOOST_REGEX'
+        use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends,
+        uselib = ['BOOST_REGEX'] + libs
     )
