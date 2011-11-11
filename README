@@ -8,6 +8,13 @@ and easy to understand interface.
 The library is written in C++, but Python wrappers should be available in the
 near future.
 
+Cap2re is licensed under the terms of GNU LGPL v3, which allows you to freely
+copy, modify and distribuite it, under few restrictions:
+    - If you do some modifications, you must make them available under same
+      terms.
+    - If you plan to use Cap2re in a commercial closed-source project, you can
+      do it, as long as you link dinamically.
+
 
     2. REQUIREMENTS
 
@@ -26,10 +33,11 @@ to check if any of these libraries are installed:
     3. BUILDING
 
 To compile the library, check if you met all the requirements and then just type
+from top directory:
 
     $ waf configure
 
-and then
+And then run:
 
     $ waf build
     
