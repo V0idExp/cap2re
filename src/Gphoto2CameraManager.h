@@ -24,7 +24,8 @@
 
 #include "CameraManager.h"
 
-namespace gphoto2 {
+namespace gphoto2
+{
     #include <gphoto2/gphoto2.h>
 }
 
