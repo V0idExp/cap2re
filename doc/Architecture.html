@@ -1,0 +1,138 @@
+<html>
+<head><title>PyGI Class Diagram</title>
+<style type="text/css">
+.tooltip {
+  font-size:10pt;
+  background-color:#FFFFCC;
+  border:1px solid black;
+  border-radius: 8px;
+  padding:2px;
+  width: 200px
+}
+</style>
+<style type="text/css">
+.tooltip {
+  position:absolute;
+  display:none
+}
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+tooltip = null;
+document.onmousemove = updateTooltip;
+function updateTooltip(e) {
+try {
+if (document.all) {
+if (document.documentElement && document.documentElement.scrollTop) { // Explorer 6 Strict
+x = document.documentElement.scrollLeft + window.event.x;
+y = document.documentElement.scrollTop + window.event.y;
+}
+else { // all other Explorers
+x = document.body.scrollLeft + window.event.x;
+y = document.body.scrollTop + window.event.y;
+}
+}
+else {
+x = e.pageX;
+y = e.pageY;
+}
+if (tooltip != null) {
+o = 20;
+var sx, sy;
+if (self.pageYOffset) { // all except Explorer
+sx = self.pageXOffset;
+sy = self.pageYOffset;
+}
+else if (document.documentElement && document.documentElement.scrollTop) { // Explorer 6 Strict
+sx = document.documentElement.scrollLeft;
+sy = document.documentElement.scrollTop;
+}
+else if (document.body) { // all other Explorers
+sx = document.body.scrollLeft;
+sy = document.body.scrollTop;
+}
+t = y + o + tooltip.offsetHeight;
+w = sy + document.body.clientHeight;
+if (t > w) {
+y = y - o - tooltip.offsetHeight;
+}
+else {
+y = y + o;
+}
+t = x + o + tooltip.offsetWidth;
+w = sx + document.body.clientWidth;
+if (t > w) {
+x = x - o - tooltip.offsetWidth;
+}
+else {
+x = x + o;
+}
+if ((tooltip.style.top == '' || tooltip.style.top == 0) && (tooltip.style.left == '' || tooltip.style.left == 0))
+{
+tooltip.style.width = tooltip.offsetWidth + 'px';
+tooltip.style.height = tooltip.offsetHeight + 'px';
+}
+tooltip.style.left = x + "px";
+tooltip.style.top = y + "px";
+}
+} catch (error) { error = null; }
+}
+function showTooltip(id) {
+try {
+tooltip = document.getElementById(id);
+tooltip.style.display = "block";
+} catch (error) { error = null; }
+}
+function hideTooltip() {
+try {
+tooltip.style.display = "none";
+} catch (error) { error = null; }
+}
+</script>
+
+<div class="tooltip" id="n0">The Bridge pattern is used to disconnect the abstraction (Camera) from implementation (CameraImpl). It is possible to change one or both of them in a transparent manner, and the client does not notice the change.</div>
+<div class="tooltip" id="n1">The CameraManager is the central object in the library. It determines which implementation is to be used and provides an unified interface for camera management. </div>
+<div class="tooltip" id="n2">Concrete CameraManager implementation</div>
+<div class="tooltip" id="n3">Concrete CameraManager implementation</div>
+<div class="tooltip" id="n4">Concrete CameraManager implementation</div>
+<div class="tooltip" id="n5">CameraManager</div>
+<div class="tooltip" id="n6">Camera</div>
+<div class="tooltip" id="n7">Configuration</div>
+<div class="tooltip" id="n8">Client code which uses the library</div>
+<div class="tooltip" id="n9">Generic Camera entity, which delegates all calls to its implemetation CameraImp. <br>Cameras are managed by CameraManager, which decides the implementation to use.</div>
+<div class="tooltip" id="n10">An abstract camera implementation interface. Provides low-level methods, which are used by Camera methods. Implementations must provide at least the functionality defined by this interface.</div>
+<div class="tooltip" id="n11">Concrete CameraImp</div>
+<div class="tooltip" id="n12">Concrete CameraImp</div>
+<div class="tooltip" id="n13">Concrete CameraImp</div>
+<div class="tooltip" id="n14">The configuration tree is a graph data structure which holds nodes, identified by paths and allows to store a set of values.</div>
+<div class="tooltip" id="n15">Each node in the configuration tree has a value and may have subnodes. There's always at least one node in the tree - the root node, which does not hold any value and can't be accessed directly.</div>
+
+<map name="image1_1">
+  <area shape="rect" coords="23,688,83,788" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n8')"/>
+  <area shape="rect" coords="424,264,638,321" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n0')"/>
+  <area shape="rect" coords="929,1069,1181,1164" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n4')"/>
+  <area shape="rect" coords="673,944,925,1039" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n3')"/>
+  <area shape="rect" coords="421,819,673,914" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n2')"/>
+  <area shape="rect" coords="162,665,398,811" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n1')"/>
+  <area shape="rect" coords="145,629,1196,1179" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n5')"/>
+  <area shape="rect" coords="966,502,1144,578" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n13')"/>
+  <area shape="rect" coords="712,502,890,578" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n12')"/>
+  <area shape="rect" coords="458,502,636,578" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n11')"/>
+  <area shape="rect" coords="665,269,937,430" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n10')"/>
+  <area shape="rect" coords="162,326,398,487" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n9')"/>
+  <area shape="rect" coords="147,229,1159,614" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n6')"/>
+  <area shape="rect" coords="881,57,1076,184" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n15')"/>
+  <area shape="rect" coords="474,51,754,190" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n14')"/>
+  <area shape="rect" coords="459,15,1091,205" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip('n7')"/>
+</map>
+
+
+    <table class="yimagetable" cellspacing="0" cellpadding="0" border="0">
+      <tr>
+        <td><img class="yimage" src="Architecture1_1.png" usemap="#image1_1" border="0" alt=""/></td>
+      </tr>
+    </table>
+</body>
+</html>

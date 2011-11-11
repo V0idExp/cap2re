@@ -1,0 +1,70 @@
+### PROJECT CONFIGURATION ###
+APPNAME = 'pycap2re'
+VERSION = '0.1'
+top = '.'
+out = 'build'
+#############################
+
+def options(ctx):
+    ctx.load('compiler_cxx')
+
+def configure(ctx):
+    ctx.load('compiler_cxx')
+    ctx.env.PREFIX = '/usr'
+
+    # look for libgphoto2
+    ctx.check_cfg(
+        package = 'libgphoto2',
+        args = '--cflags --libs',
+        uselib_store = 'GPHOTO2'
+    )
+
+    # check for boost::regex
+    ctx.check_cxx(
+        header_name = 'boost/regex.hpp',
+        lib = 'boost_regex',
+        uselib_store = 'BOOST_REGEX',
+        msg = "Checking for 'Boost::RegEx'"
+    )
+
+    # enable last C++ standard support
+    ctx.env.CXXFLAGS = ['-std=c++0x']
+
+    # build in debug mode
+    ctx.env.CXXFLAGS += ['-ggdb']
+
+def build(ctx):
+
+    # Build platform-independent code
+    ctx.objects(
+        source = 'src/Node.cpp src/ConfigOptsTree.cpp',
+        target = 'ConfigOptsTree'
+    )
+
+    ctx.objects(
+        source = 'src/Camera.cpp src/CameraImp.cpp',
+        target = 'Camera'
+    )
+
+    ctx.objects(
+        source = 'src/CameraManager.cpp',
+        target = 'CameraManager'
+    )
+
+    # Build backends
+    backends = ""
+
+    if ctx.env.HAVE_GPHOTO2 == 1:
+        backends += ' backend_gphoto2'
+
+        ctx.objects(
+            source = 'src/Gphoto2CameraImp.cpp src/Gphoto2CameraManager.cpp',
+            target = 'backend_gphoto2'
+        )
+
+    ctx.program(
+        source = 'src/test.cpp',
+        target = 'test',
+        use = 'Camera CameraManager ConfigOptsTree' + backends,
+        uselib = 'BOOST_REGEX'
+    )
