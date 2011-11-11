@@ -28,6 +28,7 @@
 class CameraImp
 {
 public:
+    virtual ~CameraImp() {}
     virtual String          capture() = 0;
 
     virtual void            setOption(const String &path, const String &value) = 0;
