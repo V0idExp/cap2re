@@ -41,7 +41,7 @@ def build(ctx):
     )
 
     ctx.objects(
-        source = 'src/Camera.cpp src/CameraImp.cpp',
+        source = 'src/Camera.cpp',
         target = 'Camera'
     )
 
@@ -59,7 +59,7 @@ def build(ctx):
         libs.append('GPHOTO2')
 
         ctx.objects(
-            source = 'src/Gphoto2CameraImp.cpp src/Gphoto2CameraManager.cpp',
+            source = 'src/Gphoto2Camera.cpp src/Gphoto2CameraManager.cpp',
             target = 'backend_gphoto2'
         )
 
