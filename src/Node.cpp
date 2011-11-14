@@ -67,13 +67,7 @@ Node::getValue() const
 void
 Node::setValue(const String &v)
 {
-    // check if value matches any option, if so, set it as current
-    for(auto opt: _options)
-        if(opt == v)
-        {
-            _value = v;
-            break;
-        }
+    _value = v;
 }
 
 void
