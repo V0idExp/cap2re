@@ -20,6 +20,12 @@
  */
 
 #include "Gphoto2CameraImp.h"
+#include "Error.h"
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
 
 Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
     _camera(gp2Cam),
@@ -35,6 +41,7 @@ Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *
 
 Gphoto2CameraImp::~Gphoto2CameraImp()
 {
+    gp_camera_exit(_camera, _context);
     gp_camera_unref(_camera);
 }
 
@@ -44,10 +51,31 @@ Gphoto2CameraImp::capture(const String &outDir)
     // Path on camera where the image is stored
     gphoto2::CameraFilePath  out;
 
-    // Capture the image. For now, the result is stored on camera's memory (RAM or SD)
-    gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context);
+    // gphoto2 file management data
+    gphoto2::CameraFile *file;
+    int fd;
 
-    // TODO: download the file from camera
+    // Path to file
+    String filename = outDir + "/imgXXXXXX";
+    char tmpfilename[filename.length()+1];
+    strcpy(tmpfilename, filename.c_str());
+
+    // Capture the image. For now, the result is stored on camera's memory (RAM or SD)
+    if(gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context) < GP_OK)
+        throw RuntimeError("something gone wrong when trying to capture image from gphoto2 camera");
+
+    // Create a temporary file with a random name
+    fd = mkstemp(tmpfilename);
+
+    // Create a gphoto2 file struct from file descripter obtained by mkstemp()
+    if(gp_file_new_from_fd(&file, fd) < GP_OK)
+        throw RuntimeError("can't create temporary file");
+
+    // Save the image into the temporary file
+    if(gp_camera_file_get(_camera, out.folder, out.name, gphoto2::GP_FILE_TYPE_NORMAL, file, _context) < GP_OK)
+        throw RuntimeError("can't download the image from camera to temporary file");
+
+    return tmpfilename;
 }
 
 void
