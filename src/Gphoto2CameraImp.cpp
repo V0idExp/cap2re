@@ -27,10 +27,44 @@
 #include <cstring>
 using namespace std;
 
+void
+buildConfigTree(Node *node, gphoto2::CameraWidget *w)
+{
+    const char *name;
+    gp_widget_get_name(w, &name);
+
+    int childrenCount = gp_widget_count_children(w);
+
+    if(!childrenCount)
+        node->addChild(new Node(name));
+    else
+        for(int c = 0; c < childrenCount; c++)
+        {
+            gphoto2::CameraWidget *child;
+            gp_widget_get_child(w, c, &child);
+            buildConfigTree(node, child);
+        }
+}
+
+ConfigOptsTree*
+loadCameraConfiguration(gphoto2::Camera *gp2cam, gphoto2::GPContext *gp2context)
+{
+    ConfigOptsTree *cfg = new ConfigOptsTree();
+    gphoto2::CameraWidget *root;
+    gp_camera_get_config(gp2cam, &root, gp2context);
+
+    buildConfigTree(cfg->getEntry(""), root);
+
+    return cfg;
+}
+
 Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
     _camera(gp2Cam),
     _context(gp2Context)
 {
+    // Build and store camera configuration
+    _config = loadCameraConfiguration(gp2Cam, gp2Context);
+
     // Retrieve a copy of camera abilities
     gp_camera_get_abilities(_camera, &_abilities);
 
@@ -43,6 +77,8 @@ Gphoto2CameraImp::~Gphoto2CameraImp()
 {
     gp_camera_exit(_camera, _context);
     gp_camera_unref(_camera);
+
+    delete _config;
 }
 
 String
