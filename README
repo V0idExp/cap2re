@@ -1,11 +1,13 @@
     1. DESCRIPTION
 
-Cap2re is a library for working with digital cameras. 
+Cap2re is a library for working with digital cameras. It can be used to capture
+images from camera, get and set camera options in a unified, backend (and
+camera model) independent manner.
 
-It is designed to be easy to use and to extend, with a polite design and clean
-and easy to understand interface. 
+It is written to be easy to use and extend, with a polite design and clean, 
+easy to understand API. 
 
-The library is written in C++, but Python wrappers should be available in the
+The library is written in C++, but Python wrappers will be available in the
 near future.
 
 Cap2re is licensed under the terms of GNU LGPL v3, which allows you to freely
@@ -25,15 +27,15 @@ folowing libs and tools installed:
     - Boost with RegEx support
     - Waf build tool
 
-In order to build the backends, which provide the actual functionality, you have
+To build the backends, which provide the actual functionality, you have
 to check if any of these libraries are installed:
 
     - libgphoto2
     
     3. BUILDING
 
-To compile the library, check if you met all the requirements and then just type
-from top directory:
+To compile the library, check if you've met all the requirements and then just
+type from top directory:
 
     $ waf configure
 
