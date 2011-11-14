@@ -35,7 +35,7 @@ public:
     Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
     ~Gphoto2CameraImp();
 
-    String      capture();
+    String      capture(const String &outDir);
 
     void        setOption(const String &path, const String &value);
     String      getOption(const String &path) const;

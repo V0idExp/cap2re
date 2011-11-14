@@ -31,9 +31,9 @@ Camera::Camera(CameraImp *imp):
 }
 
 String
-Camera::captureImage()
+Camera::captureImage(const String &outDir)
 {
-    return _imp->capture();
+    return _imp->capture(outDir);
 }
 
 String

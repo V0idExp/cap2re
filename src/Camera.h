@@ -31,7 +31,7 @@ class Camera
 public:
     Camera(CameraImp *imp);
 
-    String          captureImage();
+    String          captureImage(const String &outDir);
 
     String          getSerialNo() const;
 

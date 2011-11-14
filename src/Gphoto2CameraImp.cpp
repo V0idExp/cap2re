@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2011 Ivan Nikolaev
  *
  * This file is part of cap2re.
@@ -25,7 +25,12 @@ Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *
     _camera(gp2Cam),
     _context(gp2Context)
 {
+    // Retrieve a copy of camera abilities
     gp_camera_get_abilities(_camera, &_abilities);
+
+    // Initialize the camera
+    gp_camera_init(_camera, _context);
+
 }
 
 Gphoto2CameraImp::~Gphoto2CameraImp()
@@ -34,9 +39,15 @@ Gphoto2CameraImp::~Gphoto2CameraImp()
 }
 
 String
-Gphoto2CameraImp::capture()
+Gphoto2CameraImp::capture(const String &outDir)
 {
-    //TODO
+    // Path on camera where the image is stored
+    gphoto2::CameraFilePath  out;
+
+    // Capture the image. For now, the result is stored on camera's memory (RAM or SD)
+    gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context);
+
+    // TODO: download the file from camera
 }
 
 void
