@@ -34,10 +34,10 @@ public:
     virtual void            setOption(const String &path, const String &value) = 0;
     virtual String          getOption(const String &path) const = 0;
     virtual StringList      getOptionValues(const String &path) const = 0;
-    virtual ConfigOptsTree  getConfiguration() const;
+    virtual ConfigOptsTree* getConfiguration() const;
 
 protected:
-    ConfigOptsTree  _config;
+    ConfigOptsTree*  _config;
 };
 
 #endif // CAMERAIMP_H

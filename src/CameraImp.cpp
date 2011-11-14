@@ -21,7 +21,7 @@
 
 #include "CameraImp.h"
 
-ConfigOptsTree
+ConfigOptsTree*
 CameraImp::getConfiguration() const
 {
     return _config;
