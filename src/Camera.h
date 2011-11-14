@@ -22,27 +22,24 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Common.h"
-#include "CameraImp.h"
 #include "ConfigOptsTree.h"
+#include "Common.h"
 
 class Camera
 {
 public:
-    Camera(CameraImp *imp);
+    virtual ~Camera() {}
+    virtual String          capture(const String &outDir) = 0;
 
-    String          captureImage(const String &outDir);
+    virtual String          getSerialNo() const = 0;
 
-    String          getSerialNo() const;
+    virtual void            setOption(const String &path, const String &value) = 0;
+    virtual String          getOption(const String &path) const = 0;
+    virtual StringList      getOptionValues(const String &path) const = 0;
+    virtual ConfigOptsTree* getConfiguration() const;
 
-    String          getExposureTime() const;
-    void            setExposureTime(const String &value);
-
-    String          getApertureSize() const;
-    void            setApertureSize(const String &value);
-
-private:
-    CameraImp*  _imp;
+protected:
+    ConfigOptsTree*  _config;
 };
 
 #endif // CAMERA_H

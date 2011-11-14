@@ -19,49 +19,10 @@
  *
  */
 
-#include "Common.h"
 #include "Camera.h"
-#include "Error.h"
 
-Camera::Camera(CameraImp *imp):
-    _imp(imp)
+ConfigOptsTree*
+Camera::getConfiguration() const
 {
-    if(!_imp)
-        throw ValueError("NULL CameraImp pointer passed to Camera constructor");
-}
-
-String
-Camera::captureImage(const String &outDir)
-{
-    return _imp->capture(outDir);
-}
-
-String
-Camera::getSerialNo() const
-{
-    return _imp->getOption("");
-}
-
-String
-Camera::getApertureSize() const
-{
-    return _imp->getOption("");
-}
-
-void
-Camera::setApertureSize(const String &value)
-{
-    _imp->setOption("", "");
-}
-
-String
-Camera::getExposureTime() const
-{
-    return _imp->getOption("");
-}
-
-void
-Camera::setExposureTime(const String &value)
-{
-    _imp->setOption("", "");
+    return _config;
 }

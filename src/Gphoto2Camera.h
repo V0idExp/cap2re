@@ -22,20 +22,21 @@
 #ifndef GPHOTO2CAMERAIMP_H
 #define GPHOTO2CAMERAIMP_H
 
-#include "CameraImp.h"
+#include "Camera.h"
 
 namespace gphoto2
 {
     #include <gphoto2/gphoto2.h>
 }
 
-class Gphoto2CameraImp : public CameraImp
+class Gphoto2Camera : public Camera
 {
 public:
-    Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
-    ~Gphoto2CameraImp();
+    Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
+    ~Gphoto2Camera();
 
     String      capture(const String &outDir);
+    String      getSerialNo() const;
 
     void        setOption(const String &path, const String &value);
     String      getOption(const String &path) const;

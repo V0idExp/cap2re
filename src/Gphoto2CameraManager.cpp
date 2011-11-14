@@ -20,7 +20,7 @@
  */
 
 #include "Gphoto2CameraManager.h"
-#include "Gphoto2CameraImp.h"
+#include "Gphoto2Camera.h"
 #include "Error.h"
 
 Gphoto2CameraManager::Gphoto2CameraManager():
@@ -82,7 +82,7 @@ Gphoto2CameraManager::detectCameras()
         gp_camera_set_port_info(cam, pi);
 
         // Add the camera object to camera list
-        _cameras.push_back(new Camera(new Gphoto2CameraImp(cam, _context)));
+        _cameras.push_back(new Gphoto2Camera(cam, _context));
     }
 
     return _cameras;

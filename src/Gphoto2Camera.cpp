@@ -19,7 +19,7 @@
  *
  */
 
-#include "Gphoto2CameraImp.h"
+#include "Gphoto2Camera.h"
 #include "Error.h"
 
 #include <iostream>
@@ -117,7 +117,7 @@ loadCameraConfiguration(gphoto2::Camera *gp2cam, gphoto2::GPContext *gp2context)
     return cfg;
 }
 
-Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
+Gphoto2Camera::Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
     _camera(gp2Cam),
     _context(gp2Context)
 {
@@ -132,7 +132,7 @@ Gphoto2CameraImp::Gphoto2CameraImp(gphoto2::Camera *gp2Cam, gphoto2::GPContext *
 
 }
 
-Gphoto2CameraImp::~Gphoto2CameraImp()
+Gphoto2Camera::~Gphoto2Camera()
 {
     gp_camera_exit(_camera, _context);
     gp_camera_unref(_camera);
@@ -141,7 +141,7 @@ Gphoto2CameraImp::~Gphoto2CameraImp()
 }
 
 String
-Gphoto2CameraImp::capture(const String &outDir)
+Gphoto2Camera::capture(const String &outDir)
 {
     // Path on camera where the image is stored
     gphoto2::CameraFilePath  out;
@@ -174,19 +174,25 @@ Gphoto2CameraImp::capture(const String &outDir)
 }
 
 void
-Gphoto2CameraImp::setOption(const String &path, const String &data)
+Gphoto2Camera::setOption(const String &path, const String &data)
 {
     //TODO
 }
 
 String
-Gphoto2CameraImp::getOption(const String &path) const
+Gphoto2Camera::getOption(const String &path) const
 {
     return _config->getValue(path);
 }
 
 StringList
-Gphoto2CameraImp::getOptionValues(const String &path) const
+Gphoto2Camera::getOptionValues(const String &path) const
 {
     return _config->getOptions(path);
+}
+
+String
+Gphoto2Camera::getSerialNo() const
+{
+    return _config->getValue("main.status.serialnumber");
 }
