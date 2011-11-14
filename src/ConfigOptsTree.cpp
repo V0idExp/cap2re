@@ -149,6 +149,12 @@ ConfigOptsTree::getValue(const String &path) const
     return getEntry(path)->getValue();
 }
 
+StringList
+ConfigOptsTree::getOptions(const String &path) const
+{
+    return getEntry(path)->getOptions();
+}
+
 void
 ConfigOptsTree::setValue(const String &path, const String &value)
 {

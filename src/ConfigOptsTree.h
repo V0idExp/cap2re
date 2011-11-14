@@ -33,10 +33,11 @@ public:
 
 
     Node*   addEntry(const String &path, const StringList &options = StringList());
-
     Node*   getEntry(const String &path) const;
-    String  getValue(const String &path) const;
-    void    setValue(const String &path, const String &value);
+
+    StringList  getOptions(const String &path) const;
+    String      getValue(const String &path) const;
+    void        setValue(const String &path, const String &value);
 
     String  getSeparator() const;
 
