@@ -47,6 +47,7 @@ public:
 
     virtual void            addChild(Node *n);
     virtual Node*           getChild(const String &name) const;
+    virtual NodePtrList     getChildren() const;
 
 protected:
     String          _name;

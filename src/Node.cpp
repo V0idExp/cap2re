@@ -92,3 +92,9 @@ Node::getChild(const String &name) const
 
     return nullptr;
 }
+
+NodePtrList
+Node::getChildren() const
+{
+    return _children;
+}
