@@ -23,6 +23,7 @@
 #include "Error.h"
 
 #include <iostream>
+#include <sstream>
 #include <cstdlib>
 #include <cstring>
 using namespace std;
@@ -30,20 +31,78 @@ using namespace std;
 void
 buildConfigTree(Node *node, gphoto2::CameraWidget *w)
 {
+    // Widget information
     const char *name;
+    gphoto2::CameraWidgetType type;
+
+    // Widget value containers
+    int ival;
+    const char *sval;
+    float fval;
+    ostringstream data;
+
+    // Get widget information
+    gp_widget_get_type(w, &type);
     gp_widget_get_name(w, &name);
 
+    // Count widget children, if any
     int childrenCount = gp_widget_count_children(w);
 
+    // Append a new node with widget's name and switch to it
+    node->addChild(new Node(name));
+    node = node->getChild(name);
+
+    // If the node is not a container of other nodes, convert its values
+    switch(type)
+    {
+        case gphoto2::GP_WIDGET_TEXT:
+        case gphoto2::GP_WIDGET_RADIO:
+        case gphoto2::GP_WIDGET_MENU:
+            gp_widget_get_value(w, &sval);
+            data << sval;
+            break;
+
+        case gphoto2::GP_WIDGET_TOGGLE:
+        case gphoto2::GP_WIDGET_DATE:
+            gp_widget_get_value(w, &ival);
+            data << ival;
+            break;
+
+        case gphoto2::GP_WIDGET_RANGE:
+            gp_widget_get_value(w, &fval);
+            data << fval;
+            break;
+    }
+
+    // If this node is the last, it means that it holds a value, so save it and its options, if there are any.
     if(!childrenCount)
-        node->addChild(new Node(name));
-    else
-        for(int c = 0; c < childrenCount; c++)
+    {
+        node->setValue(data.str());
+
+        // If the widget is of type GP_WIDGET_RADIO or GP_WIDGET_MENU, there may be a list of available options.
+        // Save them.
+        if(type == gphoto2::GP_WIDGET_RADIO || type == gphoto2::GP_WIDGET_MENU)
         {
-            gphoto2::CameraWidget *child;
-            gp_widget_get_child(w, c, &child);
-            buildConfigTree(node, child);
+            int choiceCount = gp_widget_count_choices(w);
+
+            for(int c = 0; c < choiceCount; c++)
+            {
+                ostringstream choice;
+                gp_widget_get_choice(w, c, &sval);
+                choice << sval;
+                node->addOption(choice.str());
+            }
+
         }
+    }
+
+    // Process subnodes recursively.
+    for(int c = 0; c < childrenCount; c++)
+    {
+        gphoto2::CameraWidget *child;
+        gp_widget_get_child(w, c, &child);
+        buildConfigTree(node, child);
+    }
 }
 
 ConfigOptsTree*
@@ -115,7 +174,7 @@ Gphoto2CameraImp::capture(const String &outDir)
 }
 
 void
-Gphoto2CameraImp::setOption(const String &path, const String &value)
+Gphoto2CameraImp::setOption(const String &path, const String &data)
 {
     //TODO
 }
@@ -123,11 +182,11 @@ Gphoto2CameraImp::setOption(const String &path, const String &value)
 String
 Gphoto2CameraImp::getOption(const String &path) const
 {
-    //TDOO
+    return _config->getValue(path);
 }
 
 StringList
 Gphoto2CameraImp::getOptionValues(const String &path) const
 {
-    //TODO
+    return _config->getOptions(path);
 }
