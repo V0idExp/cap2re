@@ -92,7 +92,6 @@ buildConfigTree(Node *node, gphoto2::CameraWidget *w)
                 choice << sval;
                 node->addOption(choice.str());
             }
-
         }
     }
 
@@ -195,4 +194,28 @@ String
 Gphoto2Camera::getSerialNo() const
 {
     return _config->getValue("main.status.serialnumber");
+}
+
+void
+Gphoto2Camera::setApertureSize(const String &value)
+{
+    //TODO
+}
+
+String
+Gphoto2Camera::getApertureSize() const
+{
+    return _config->getValue("main.capturesettings.aperture");
+}
+
+void
+Gphoto2Camera::setExposureTime(const String &value)
+{
+    //TODO
+}
+
+String
+Gphoto2Camera::getExposureTime() const
+{
+    return _config->getValue("main.capturesettings.shutterspeed");
 }

@@ -42,6 +42,13 @@ public:
     String      getOption(const String &path) const;
     StringList  getOptionValues(const String &path) const;
 
+    // Some convenience properties
+    void        setExposureTime(const String &value);
+    String      getExposureTime() const;
+
+    void        setApertureSize(const String &value);
+    String      getApertureSize() const;
+
 private:
     gphoto2::CameraAbilities    _abilities;
     gphoto2::Camera*            _camera;

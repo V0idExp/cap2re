@@ -38,6 +38,13 @@ public:
     virtual StringList      getOptionValues(const String &path) const = 0;
     virtual ConfigOptsTree* getConfiguration() const;
 
+    // Some convenience properties
+    virtual void    setExposureTime(const String &value) = 0;
+    virtual String  getExposureTime() const = 0;
+
+    virtual void    setApertureSize(const String &value) = 0;
+    virtual String  getApertureSize() const = 0;
+
 protected:
     ConfigOptsTree*  _config;
 };
