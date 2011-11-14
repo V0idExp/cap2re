@@ -43,3 +43,6 @@ And then run:
 
     $ waf build
     
+For additional build options and actions, check out:
+    
+    $ waf --help
