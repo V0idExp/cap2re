@@ -27,8 +27,6 @@
 using namespace boost;
 using namespace std;
 
-/**************************/
-/*--- HELPER FUNCTIONS ---*/
 bool
 isPathValid(const String &path, const String &separator)
 {
@@ -71,7 +69,6 @@ splitPath(const String &path, const String &separator)
     }
     return nodes;
 }
-/**************************/
 
 ConfigOptsTree::ConfigOptsTree(const char separator):
     _root(new Node("root"))
@@ -104,7 +101,6 @@ ConfigOptsTree::addEntry(const String &path, const StringList &opts)
 
     Node *node = _root;
     Node *child;
-    bool alreadyExists = true;
 
     // Starting from root, go down the tree and create missing nodes
     for(auto nodeName: nodes)
@@ -114,15 +110,11 @@ ConfigOptsTree::addEntry(const String &path, const StringList &opts)
         if(!child)
         {
             child = new Node(nodeName, opts);
-            alreadyExists = false;
+            node->addChild(child);
         }
 
-        node->addChild(child);
         node = child;
     }
-
-    if(alreadyExists)
-        return  nullptr;
 
     return node;
 }
