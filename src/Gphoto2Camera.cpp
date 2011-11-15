@@ -75,7 +75,7 @@ buildConfigTree(Node *node, gphoto2::CameraWidget *w)
     }
 
     // If this node is the last, it means that it holds a value, so save it and its options, if there are any.
-    if(!childrenCount)
+    if(childrenCount == 0)
     {
         node->setValue(data.str());
 
@@ -101,6 +101,73 @@ buildConfigTree(Node *node, gphoto2::CameraWidget *w)
         gphoto2::CameraWidget *child;
         gp_widget_get_child(w, c, &child);
         buildConfigTree(node, child);
+    }
+}
+
+bool
+setWidgetValue(gphoto2::CameraWidget *w, const String &entry, const String &value)
+{
+    // Widget information
+    const char *name;
+    gphoto2::CameraWidgetType type;
+    int childrenCount;
+
+    // Get info about current widget
+    gp_widget_get_name(w, &name);
+    gp_widget_get_type(w, &type);
+    childrenCount = gp_widget_count_children(w);
+
+    // Check if we've already on the widget for which we are looking for
+    if(entry == name && type != gphoto2::GP_WIDGET_WINDOW && type != gphoto2::GP_WIDGET_SECTION && childrenCount == 0)
+    {
+        // Value containers
+        int ival;
+        float fval;
+        const char *sval;
+
+        // Do necessary conversions and set the widget value
+        switch(type)
+        {
+            case gphoto2::GP_WIDGET_TEXT:
+            case gphoto2::GP_WIDGET_RADIO:
+            case gphoto2::GP_WIDGET_MENU:
+                sval = value.c_str();
+                gp_widget_set_value(w, sval);
+                break;
+
+            case gphoto2::GP_WIDGET_TOGGLE:
+            case gphoto2::GP_WIDGET_DATE:
+                ival = atoi(value.c_str());
+                gp_widget_set_value(w, &ival);
+                break;
+
+            case gphoto2::GP_WIDGET_RANGE:
+                fval = atof(value.c_str());
+                gp_widget_set_value(w, &fval);
+                break;
+        }
+
+        return true;
+    }
+    // If the widget has not been found, return false
+    else if(childrenCount == 0)
+    {
+        return false;
+    }
+    // Recursively process widget's children
+    else
+    {
+        bool result;
+        for(int c = 0; c < childrenCount; c++)
+        {
+            gphoto2::CameraWidget *child;
+            gp_widget_get_child(w, c, &child);
+            result = setWidgetValue(child, entry, value);
+
+            if(result)
+                break;
+        }
+        return result;
     }
 }
 
@@ -173,9 +240,21 @@ Gphoto2Camera::capture(const String &outDir)
 }
 
 void
-Gphoto2Camera::setOption(const String &path, const String &data)
+Gphoto2Camera::setOption(const String &path, const String &value)
 {
-    //TODO
+    // First, check if the given option exists
+    if(!_config->getEntry(path))
+        throw ValueError("trying to set unknown option");
+
+    // Get the root widget of camera internal configuration
+    gphoto2::CameraWidget *root;
+    gp_camera_get_config(_camera, &root, _context);
+
+    if(setWidgetValue(root, _config->getEntry(path)->getName(), value))
+    {
+        gp_camera_set_config(_camera, root, _context);
+        _config->setValue(path, value);
+    }
 }
 
 String
@@ -199,7 +278,7 @@ Gphoto2Camera::getSerialNo() const
 void
 Gphoto2Camera::setApertureSize(const String &value)
 {
-    //TODO
+    setOption("main.capturesettings.aperture", value);
 }
 
 String
@@ -211,7 +290,7 @@ Gphoto2Camera::getApertureSize() const
 void
 Gphoto2Camera::setExposureTime(const String &value)
 {
-    //TODO
+    setOption("main.capturesettings.shutterspeed", value);
 }
 
 String
