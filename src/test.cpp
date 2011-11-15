@@ -26,10 +26,20 @@
 using namespace std;
 
 #include "ConfigOptsTree.h"
+#include "CameraManager.h"
+#include "Gphoto2CameraManager.h"
 
 int main()
 {
-    ConfigOptsTree tree;
+    CameraManager *camMgr = new Gphoto2CameraManager;
+    for(auto cam: camMgr->detectCameras())
+    {
+        cout << "Exposure time:" << cam->getExposureTime() << endl;
+        cout << "Aperture: " << cam->getApertureSize() << endl;
+        String out = cam->capture(".");
+        cout << "Image saved in: " << out << endl;
+    }
 
+    delete camMgr;
     return 0;
 }
