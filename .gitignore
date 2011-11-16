@@ -2,3 +2,4 @@ build/
 .lock*
 Capture.*
 img*
+src/config.h
