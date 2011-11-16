@@ -27,11 +27,31 @@ def configure(ctx):
         msg = "Checking for 'Boost::RegEx'"
     )
 
+    # checking for python2
+    ctx.check_cfg(
+        path='python2-config',
+        package = '',
+        args = '--libs --cflags --include',
+        uselib_store = 'PYTHON2',
+        msg = "Checking for 'Python'",
+    )
+
+    # check for boost::python (v2)
+    ctx.check_cxx(
+        header_name = 'boost/python.hpp',
+        lib = 'boost_python',
+        uselib_store = 'BOOST_PYTHON',
+        uselib = 'PYTHON2',
+        msg = "Checking for 'Boost::Python'"
+    )
+
     # enable last C++ standard support
     ctx.env.CXXFLAGS = ['-std=c++0x']
 
     # build in debug mode
-    ctx.env.CXXFLAGS += ['-ggdb']
+    ctx.env.CXXFLAGS += ['-ggdb', '-fPIC']
+
+    ctx.write_config_header('../src/config.h', remove=False)
 
 def build(ctx):
     # Build platform-independent code
@@ -62,6 +82,14 @@ def build(ctx):
             source = 'src/Gphoto2Camera.cpp src/Gphoto2CameraManager.cpp',
             target = 'backend_gphoto2'
         )
+
+    # Build python wrapper
+    ctx.shlib(
+        source = 'src/PythonWrapper.cpp',
+        target = 'cap2re',
+        uselib = ['PYTHON2', 'BOOST_PYTHON', 'BOOST_REGEX'] + libs,
+        use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends
+    )
 
     ctx.program(
         source = 'src/test.cpp',
