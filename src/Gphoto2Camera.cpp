@@ -87,10 +87,8 @@ buildConfigTree(Node *node, gphoto2::CameraWidget *w)
 
             for(int c = 0; c < choiceCount; c++)
             {
-                ostringstream choice;
                 gp_widget_get_choice(w, c, &sval);
-                choice << sval;
-                node->addOption(choice.str());
+                node->addOption(String(sval));
             }
         }
     }
@@ -101,73 +99,6 @@ buildConfigTree(Node *node, gphoto2::CameraWidget *w)
         gphoto2::CameraWidget *child;
         gp_widget_get_child(w, c, &child);
         buildConfigTree(node, child);
-    }
-}
-
-bool
-setWidgetValue(gphoto2::CameraWidget *w, const String &entry, const String &value)
-{
-    // Widget information
-    const char *name;
-    gphoto2::CameraWidgetType type;
-    int childrenCount;
-
-    // Get info about current widget
-    gp_widget_get_name(w, &name);
-    gp_widget_get_type(w, &type);
-    childrenCount = gp_widget_count_children(w);
-
-    // Check if we've already on the widget for which we are looking for
-    if(entry == name && type != gphoto2::GP_WIDGET_WINDOW && type != gphoto2::GP_WIDGET_SECTION && childrenCount == 0)
-    {
-        // Value containers
-        int ival;
-        float fval;
-        const char *sval;
-
-        // Do necessary conversions and set the widget value
-        switch(type)
-        {
-            case gphoto2::GP_WIDGET_TEXT:
-            case gphoto2::GP_WIDGET_RADIO:
-            case gphoto2::GP_WIDGET_MENU:
-                sval = value.c_str();
-                gp_widget_set_value(w, sval);
-                break;
-
-            case gphoto2::GP_WIDGET_TOGGLE:
-            case gphoto2::GP_WIDGET_DATE:
-                ival = atoi(value.c_str());
-                gp_widget_set_value(w, &ival);
-                break;
-
-            case gphoto2::GP_WIDGET_RANGE:
-                fval = atof(value.c_str());
-                gp_widget_set_value(w, &fval);
-                break;
-        }
-
-        return true;
-    }
-    // If the widget has not been found, return false
-    else if(childrenCount == 0)
-    {
-        return false;
-    }
-    // Recursively process widget's children
-    else
-    {
-        bool result;
-        for(int c = 0; c < childrenCount; c++)
-        {
-            gphoto2::CameraWidget *child;
-            gp_widget_get_child(w, c, &child);
-            result = setWidgetValue(child, entry, value);
-
-            if(result)
-                break;
-        }
-        return result;
     }
 }
 
@@ -242,19 +173,40 @@ Gphoto2Camera::capture(const String &outDir)
 void
 Gphoto2Camera::setOption(const String &path, const String &value)
 {
+    Node *entry = _config->getEntry(path);
+    int ret;
+    gphoto2::CameraWidgetType type;
+    gphoto2::CameraWidget *root, *child;
+
     // First, check if the given option exists
-    if(!_config->getEntry(path))
+    if(!entry)
         throw ValueError("trying to set unknown option");
 
-    // Get the root widget of camera internal configuration
-    gphoto2::CameraWidget *root;
-    gp_camera_get_config(_camera, &root, _context);
+    ret = gp_camera_get_config(_camera, &root, _context);
+    if(ret < GP_OK)
+        throw RuntimeError("[gphoto2] can't get camera configuration ");
 
-    if(setWidgetValue(root, _config->getEntry(path)->getName(), value))
+    ret = gp_widget_get_child_by_name(root, entry->getName().c_str(), &child);
+    if(ret < GP_OK)
+        throw RuntimeError("[gphoto2] can't find widget "+_config->getEntry(path)->getName());
+
+    // Determine widgets type and convert the given option to right value
+    ret = gp_widget_get_type(child, &type);
+    if(ret < GP_OK)
+        throw RuntimeError("[gphoto2] can't determine option value type");
+
+    if(type != gphoto2::GP_WIDGET_WINDOW || type != gphoto2::GP_WIDGET_SECTION)
     {
-        gp_camera_set_config(_camera, root, _context);
-        _config->setValue(path, value);
+        ret = gp_widget_set_value(child, value.c_str());
+        if(ret < GP_OK)
+            throw RuntimeError("[gphoto2] can't set the option value");
     }
+
+    ret = gp_camera_set_config(_camera, root, _context);
+    if(ret < GP_OK)
+        throw RuntimeError("[gphoto2] unable to set camera configuration option");
+
+    _config->setValue(path, value);
 }
 
 String
