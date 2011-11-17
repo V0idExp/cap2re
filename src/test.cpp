@@ -29,17 +29,22 @@ using namespace std;
 #include "CameraManager.h"
 #include "Gphoto2CameraManager.h"
 
+
 int main()
 {
-    CameraManager *camMgr = new Gphoto2CameraManager;
-    for(auto cam: camMgr->detectCameras())
+    CameraManager *mgr = new Gphoto2CameraManager();
+
+    CameraPtrList cams = mgr->detectCameras();
+    for(auto cam: cams)
     {
-        cout << "Exposure time:" << cam->getExposureTime() << endl;
-        cout << "Aperture: " << cam->getApertureSize() << endl;
-        String out = cam->capture(".");
-        cout << "Image saved in: " << out << endl;
+        cout << "Apertura: " << cam->getApertureSize() << endl;
+        cout << "Esposizione: " << cam->getExposureTime() << endl;
+        cout << "N.serie: " << cam->getOption("main.status.serialnumber") << endl;
+        cam->setApertureSize("4");
+        cam->setExposureTime("1/50");
+
     }
 
-    delete camMgr;
+    delete mgr;
     return 0;
 }

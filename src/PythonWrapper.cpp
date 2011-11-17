@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "CommonWrapper.h"
 #include "CameraManagerWrapper.h"
 #include "CameraWrapper.h"
 
@@ -17,27 +17,6 @@ void func(const String &s)
 {
     cout << s << endl;
 }
-
-class MyClass
-{
-public:
-    void func()
-    {
-        cout << "MyClass::func()" << endl;
-    }
-
-    vector<String>& strings()
-    {
-        vector<String> *s = new vector<String>;
-        s->push_back("hello");
-        s->push_back("world");
-        s->push_back("of");
-        s->push_back("python");
-
-        return *s;
-    }
-};
-
 class Base
 {
 public:
@@ -47,25 +26,65 @@ public:
 class Derived : public Base
 {
 public:
+    Derived()
+    {
+        _number = ++count;
+    }
+
     virtual void func()
     {
-        cout << "Derived::func()"<< endl;
+        cout << "[" << _number << "] Derived::func()"<< endl;
+    }
+
+private:
+    int _number;
+    static int count;
+};
+
+int Derived::count = 0;
+
+// wrapper for Base
+struct BaseWrapper : Base, python::wrapper<Base>
+{
+    virtual void func()
+    {
+        this->get_override("func");
     }
 };
 
 
+Base* makeDerived()
+{
+    return new Derived;
+}
+
+vector<Base*>* makeDerivedVec()
+{
+    vector<Base*> *v = new vector<Base*>;
+    v->push_back(new Derived);
+    v->push_back(new Derived);
+    v->push_back(new Derived);
+    return v;
+}
+
 BOOST_PYTHON_MODULE(cap2re)
 {
     using namespace python;
-    // export func()
-    def("test", &func);
+    // export Base
+    class_<BaseWrapper, noncopyable>("Base", no_init)
+            .def("func", pure_virtual(&Base::func));
 
-    // export MyClass
-    class_<MyClass>("MyClass")
-            .def("func", &MyClass::func)
-            .def("strings", &MyClass::strings, return_value_policy<copy_non_const_reference>());
+    class_<vector<Base*> >("BasePtrVec")
+            .def("__len__", &Vector2List<Base*>::len)
+            .def("__getitem__", &Vector2List<Base*>::getitem, return_value_policy<reference_existing_object>())
+            .def("__iter__", python::iterator<vector<Base*> >());
 
-    // export StringVec
-    class_<vector<String> >("StringVec")
-            .def(vector_indexing_suite<vector<String> >());
+    // export Derived
+    class_<Derived, bases<Base> >("Derived");
+
+    // export makeDerived()
+    def("makeDerived", &makeDerived, return_value_policy<manage_new_object>());
+
+    // export makeDerivedVec()
+    def("makeDerivedVec", &makeDerivedVec, return_value_policy<manage_new_object>());
 }
