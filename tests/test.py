@@ -13,12 +13,12 @@ for c in range(len(cameras)):
     print "Serial number:\t", cameras[c].getSerialNo()
 
     print "Aperture size:\t", cameras[c].getApertureSize()
-    #for size in cameras[c].getApertureSizeValues():
-    #    print '\t',size
+    for size in cameras[c].getApertureSizeValues():
+        print '\t',size
 
     print "Exposure time:\t", cameras[c].getExposureTime()
-    #for time in cameras[c].getExposureTimeValues():
-    #    print '\t',time
+    for time in cameras[c].getExposureTimeValues():
+        print '\t',time
 
     print    
 
