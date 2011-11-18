@@ -3,3 +3,4 @@ build/
 Capture.*
 img*
 src/config.h
+src/wrapper.cpp
