@@ -1,8 +1,12 @@
 %module cap2re
 %{
+#include "Common.h"
 #include "Camera.h"
 #include "CameraManager.h"
+
+#ifdef HAVE_GPHOTO2
 #include "Gphoto2CameraManager.h"
+#endif
 %}
 
 %include "std_string.i"
@@ -15,4 +19,7 @@ typedef std::string String;
 %include "Common.h"
 %include "Camera.h"
 %include "CameraManager.h"
+
+#ifdef HAVE_GPHOTO2
 %include "Gphoto2CameraManager.h"
+#endif
