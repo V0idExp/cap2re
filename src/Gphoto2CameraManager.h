@@ -35,7 +35,8 @@ public:
     Gphoto2CameraManager();
     ~Gphoto2CameraManager();
 
-    CameraPtrList   detectCameras();
+    CameraPtrList
+    detectCameras();
 
 private:
     gphoto2::GPContext* _context;

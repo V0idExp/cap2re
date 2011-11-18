@@ -33,21 +33,31 @@ class Node
 {
 public:
     Node(const String &name, const StringList &options = StringList());
-    virtual ~Node();
+    virtual
+    ~Node();
 
-    virtual String          getName() const;
+    virtual String
+    getName() const;
 
-    virtual void            addOption(const String &opt);
-    virtual StringList      getOptions() const;
-    virtual void            setOptions(const StringList &optsList);
+    virtual void
+    addOption(const String &opt);
+    virtual StringList
+    getOptions() const;
+    virtual void
+    setOptions(const StringList &optsList);
 
 
-    virtual void            setValue(const String &v);
-    virtual String          getValue() const;
+    virtual void
+    setValue(const String &v);
+    virtual String
+    getValue() const;
 
-    virtual void            addChild(Node *n);
-    virtual Node*           getChild(const String &name) const;
-    virtual NodePtrList     getChildren() const;
+    virtual void
+    addChild(Node *n);
+    virtual Node*
+    getChild(const String &name) const;
+    virtual NodePtrList
+    getChildren() const;
 
 protected:
     String          _name;

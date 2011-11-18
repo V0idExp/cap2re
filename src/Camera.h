@@ -28,22 +28,34 @@
 class Camera
 {
 public:
-    virtual ~Camera() {}
-    virtual String          capture(const String &outDir) = 0;
+    virtual
+    ~Camera() {}
 
-    virtual String          getSerialNo() const = 0;
+    virtual String
+    capture(const String &outDir) = 0;
 
-    virtual void            setOption(const String &path, const String &value) = 0;
-    virtual String          getOption(const String &path) const = 0;
-    virtual StringList      getOptionValues(const String &path) const = 0;
-    virtual ConfigOptsTree* getConfiguration() const;
+    virtual String
+    getSerialNo() const = 0;
+
+    virtual void
+    setOption(const String &path, const String &value) = 0;
+    virtual String
+    getOption(const String &path) const = 0;
+    virtual StringList
+    getOptionValues(const String &path) const = 0;
+    virtual ConfigOptsTree*
+    getConfiguration() const;
 
     // Some convenience properties
-    virtual void    setExposureTime(const String &value) = 0;
-    virtual String  getExposureTime() const = 0;
+    virtual void
+    setExposureTime(const String &value) = 0;
+    virtual String
+    getExposureTime() const = 0;
 
-    virtual void    setApertureSize(const String &value) = 0;
-    virtual String  getApertureSize() const = 0;
+    virtual void
+    setApertureSize(const String &value) = 0;
+    virtual String
+    getApertureSize() const = 0;
 
 protected:
     ConfigOptsTree*  _config;

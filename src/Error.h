@@ -30,7 +30,8 @@ public:
     ValueError(const String &description = String()): _description("invalid value: " + description) {}
     ~ValueError() throw() {}
 
-    virtual const char* what() const throw()
+    virtual const char*
+    what() const throw()
     {
         return _description.c_str();
     }
@@ -45,7 +46,8 @@ public:
     RuntimeError(const String &description = String()): _description("runtime error: " + description) {}
     ~RuntimeError() throw() {}
 
-    virtual const char* what() const throw()
+    virtual const char*
+    what() const throw()
     {
         return _description.c_str();
     }

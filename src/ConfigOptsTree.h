@@ -32,14 +32,20 @@ public:
     ~ConfigOptsTree();
 
 
-    Node*       addEntry(const String &path, const StringList &options = StringList());
-    Node*       getEntry(const String &path) const;
+    Node*
+    addEntry(const String &path, const StringList &options = StringList());
+    Node*
+    getEntry(const String &path) const;
 
-    StringList  getOptions(const String &path) const;
-    String      getValue(const String &path) const;
-    void        setValue(const String &path, const String &value);
+    StringList
+    getOptions(const String &path) const;
+    String
+    getValue(const String &path) const;
+    void
+    setValue(const String &path, const String &value);
 
-    String      getSeparator() const;
+    String
+    getSeparator() const;
 
 private:
     Node*   _root;

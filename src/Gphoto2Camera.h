@@ -35,19 +35,28 @@ public:
     Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
     ~Gphoto2Camera();
 
-    String      capture(const String &outDir);
-    String      getSerialNo() const;
+    String
+    capture(const String &outDir);
+    String
+    getSerialNo() const;
 
-    void        setOption(const String &path, const String &value);
-    String      getOption(const String &path) const;
-    StringList  getOptionValues(const String &path) const;
+    void
+    setOption(const String &path, const String &value);
+    String
+    getOption(const String &path) const;
+    StringList
+    getOptionValues(const String &path) const;
 
     // Some convenience properties
-    void        setExposureTime(const String &value);
-    String      getExposureTime() const;
+    void
+    setExposureTime(const String &value);
+    String
+    getExposureTime() const;
 
-    void        setApertureSize(const String &value);
-    String      getApertureSize() const;
+    void
+    setApertureSize(const String &value);
+    String
+    getApertureSize() const;
 
 private:
     gphoto2::CameraAbilities    _abilities;

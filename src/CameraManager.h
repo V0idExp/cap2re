@@ -32,11 +32,15 @@ typedef std::vector<Camera*> CameraPtrList;
 class CameraManager
 {
 public:
-    virtual ~CameraManager() {}
+    virtual
+    ~CameraManager() {}
 
-    virtual CameraPtrList   detectCameras() = 0;
-    virtual CameraPtrList   getCameras() const;
-    virtual Camera*         getCamera(const String &serialNo) const;
+    virtual CameraPtrList
+    detectCameras() = 0;
+    virtual CameraPtrList
+    getCameras() const;
+    virtual Camera*
+    getCamera(const String &serialNo) const;
 
 protected:
     CameraPtrList   _cameras;
