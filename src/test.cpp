@@ -35,14 +35,16 @@ int main()
     CameraManager *mgr = new Gphoto2CameraManager();
 
     CameraPtrList cams = mgr->detectCameras();
-    for(auto cam: cams)
-    {
-        cout << "Apertura: " << cam->getApertureSize() << endl;
-        cout << "Esposizione: " << cam->getExposureTime() << endl;
-        cout << "N.serie: " << cam->getOption("main.status.serialnumber") << endl;
-        cam->setApertureSize("4");
-        cam->setExposureTime("1/50");
+    cout << "Camere rilevate: " << cams.size() << endl;
 
+    for(int i = 0; i < cams.size(); i++)
+    {
+        cout << "-- Camera n." << i+1 << " --" << endl;
+
+        cout << "Aperture size:\t" << cams[i]->getApertureSize() << endl;
+        cout << "Exposure time:\t" << cams[i]->getExposureTime() << endl;
+        cout << "Serial number:\t" << cams[i]->getSerialNo() << endl;
+        cams[i]->capture("/tmp");
     }
 
     delete mgr;
