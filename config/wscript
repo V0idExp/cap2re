@@ -36,15 +36,6 @@ def configure(ctx):
         msg = "Checking for 'Python'",
     )
 
-    # check for boost::python (v2)
-    ctx.check_cxx(
-        header_name = 'boost/python.hpp',
-        lib = 'boost_python',
-        uselib_store = 'BOOST_PYTHON',
-        uselib = 'PYTHON2',
-        msg = "Checking for 'Boost::Python'"
-    )
-
     # enable last C++ standard support
     ctx.env.CXXFLAGS = ['-std=c++0x']
 
@@ -52,6 +43,7 @@ def configure(ctx):
     ctx.env.CXXFLAGS += ['-ggdb', '-fPIC']
 
     ctx.write_config_header('../src/config.h', remove=False)
+    print(ctx.env)
 
 def build(ctx):
     # Build platform-independent code
@@ -85,9 +77,10 @@ def build(ctx):
 
     # Build python wrapper
     ctx.shlib(
-        source = 'src/PythonWrapper.cpp',
+        source = 'src/wrapper.cpp',
         target = 'cap2re',
-        uselib = ['PYTHON2', 'BOOST_PYTHON', 'BOOST_REGEX'] + libs,
+        includes = ['INCLUDES_PYTHON2'],
+        uselib = ['PYTHON2', 'BOOST_REGEX'] + libs,
         use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends
     )
 
