@@ -31,9 +31,9 @@ def configure(ctx):
     ctx.check_cfg(
         path='python2-config',
         package = '',
-        args = '--libs --cflags --include',
+        args = '--include',
         uselib_store = 'PYTHON2',
-        msg = "Checking for 'Python'",
+        msg = "Checking for 'Python' headers",
     )
 
     # enable last C++ standard support
@@ -43,7 +43,6 @@ def configure(ctx):
     ctx.env.CXXFLAGS += ['-ggdb', '-fPIC']
 
     ctx.write_config_header('../src/config.h', remove=False)
-    print(ctx.env)
 
 def build(ctx):
     # Build platform-independent code
@@ -74,6 +73,13 @@ def build(ctx):
             source = 'src/Gphoto2Camera.cpp src/Gphoto2CameraManager.cpp',
             target = 'backend_gphoto2'
         )
+
+    # Invoke SWIG and generate wrapping source file
+    ctx(
+        rule = "swig -c++ -python -I../src -outdir ../"+out+" -o ../src/wrapper.cpp ${SRC}",
+        source = 'config/swig_export.i',
+        target = 'cap2re.py'
+    )
 
     # Build python wrapper
     ctx.shlib(
