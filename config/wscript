@@ -76,23 +76,16 @@ def build(ctx):
 
     # Invoke SWIG and generate wrapping source file
     ctx(
-        rule = "swig -c++ -python -I../src -outdir ../"+out+" -o ../src/wrapper.cpp ${SRC}",
+        rule = "swig -c++ -python -I../src -o wrapper.cpp ${SRC}",
         source = 'config/swig_export.i',
-        target = 'cap2re.py'
+        target = 'cap2re.py wrapper.cpp'
     )
 
     # Build python wrapper
     ctx.shlib(
-        source = 'src/wrapper.cpp',
+        source = 'build/wrapper.cpp',
         target = 'cap2re',
-        includes = ['INCLUDES_PYTHON2'],
+        includes = ['INCLUDES_PYTHON2', './src'],
         uselib = ['PYTHON2', 'BOOST_REGEX'] + libs,
         use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends
-    )
-
-    ctx.program(
-        source = 'src/test.cpp',
-        target = 'test',
-        use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends,
-        uselib = ['BOOST_REGEX'] + libs
     )

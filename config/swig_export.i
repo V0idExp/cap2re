@@ -1,5 +1,6 @@
 %module cap2re
 %{
+#include "config.h"
 #include "Common.h"
 #include "Camera.h"
 #include "CameraManager.h"
@@ -16,6 +17,7 @@ typedef std::string String;
 %template(CameraPtrList) std::vector<Camera*>;
 %template(StringList) std::vector<String>;
 
+%include "config.h"
 %include "Common.h"
 %include "Camera.h"
 %include "CameraManager.h"
