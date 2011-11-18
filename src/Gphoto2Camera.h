@@ -52,11 +52,15 @@ public:
     setExposureTime(const String &value);
     String
     getExposureTime() const;
+    StringList
+    getApertureSizeValues() const;
 
     void
     setApertureSize(const String &value);
     String
     getApertureSize() const;
+    StringList
+    getExposureTimeValues() const;
 
 private:
     gphoto2::CameraAbilities    _abilities;

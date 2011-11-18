@@ -239,6 +239,12 @@ Gphoto2Camera::getApertureSize() const
     return _config->getValue("main.capturesettings.aperture");
 }
 
+StringList
+Gphoto2Camera::getApertureSizeValues() const
+{
+    return _config->getOptions("main.capturesettings.aperture");
+}
+
 void
 Gphoto2Camera::setExposureTime(const String &value)
 {
@@ -249,4 +255,10 @@ String
 Gphoto2Camera::getExposureTime() const
 {
     return _config->getValue("main.capturesettings.shutterspeed");
+}
+
+StringList
+Gphoto2Camera::getExposureTimeValues() const
+{
+    return _config->getOptions("main.capturesettings.shutterspeed");
 }

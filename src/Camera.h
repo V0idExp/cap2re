@@ -51,11 +51,15 @@ public:
     setExposureTime(const String &value) = 0;
     virtual String
     getExposureTime() const = 0;
+    virtual StringList
+    getExposureTimeValues() const = 0;
 
     virtual void
     setApertureSize(const String &value) = 0;
     virtual String
     getApertureSize() const = 0;
+    virtual StringList
+    getApertureSizeValues() const = 0;
 
 protected:
     ConfigOptsTree*  _config;
