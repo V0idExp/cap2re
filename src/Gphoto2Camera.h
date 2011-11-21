@@ -63,7 +63,6 @@ public:
     getExposureTimeValues() const;
 
 private:
-    gphoto2::CameraAbilities    _abilities;
     gphoto2::Camera*            _camera;
     gphoto2::GPContext*         _context;
 };

@@ -22,7 +22,6 @@
 #include "Gphoto2Camera.h"
 #include "Error.h"
 
-#include <iostream>
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
@@ -120,9 +119,6 @@ Gphoto2Camera::Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Con
 {
     // Build and store camera configuration
     _config = loadCameraConfiguration(gp2Cam, gp2Context);
-
-    // Retrieve a copy of camera abilities
-    gp_camera_get_abilities(_camera, &_abilities);
 
     // Initialize the camera
     gp_camera_init(_camera, _context);
