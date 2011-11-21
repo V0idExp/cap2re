@@ -1,12 +1,13 @@
 from multiprocessing import Pipe, Process, Manager
 from cap2re import Gphoto2CameraManager
 
-mgr = Gphoto2CameraManager()
+mgr = Gphoto2CameraManager.instance()
 
 cams = mgr.detectCameras()
 procs = []
 
 print "Found " + str(len(cams)) + " cameras"
+print cams
 
 def capture(camera, outdir, shoots = 10):
     for s in range(shoots):

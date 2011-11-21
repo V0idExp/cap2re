@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    CameraManager *mgr = new Gphoto2CameraManager;
+    CameraManager *mgr = Gphoto2CameraManager::instance();
     cout << "CameraManager: " << mgr << endl;
 
     CameraPtrList cameras = mgr->detectCameras();

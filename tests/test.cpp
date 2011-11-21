@@ -32,7 +32,7 @@ using namespace std;
 
 int main()
 {
-    CameraManager *mgr = new Gphoto2CameraManager();
+    CameraManager *mgr = Gphoto2CameraManager::instance();
 
     CameraPtrList cams = mgr->detectCameras();
     cout << "Camere rilevate: " << cams.size() << endl;
