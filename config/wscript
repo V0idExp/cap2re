@@ -16,24 +16,33 @@ def configure(ctx):
     ctx.check_cfg(
         package = 'libgphoto2',
         args = '--cflags --libs',
-        uselib_store = 'GPHOTO2'
+        uselib_store = 'GPHOTO2',
+        msg = "Checking for libgphoto2"
     )
 
-    # check for boost::regex
+    # check for Boost.RegEx
     ctx.check_cxx(
         header_name = 'boost/regex.hpp',
         lib = 'boost_regex',
         uselib_store = 'BOOST_REGEX',
-        msg = "Checking for 'Boost::RegEx'"
+        msg = "Checking for Boost.RegEx"
     )
 
-    # checking for python2
+    # check for Boost.Thread
+    ctx.check_cxx(
+        header_name = 'boost/thread.hpp',
+        lib = 'boost_thread',
+        uselib_store = 'BOOST_THREAD',
+        msg = "Checking for Boost.Thread"
+    )
+
+    # check for python2
     ctx.check_cfg(
         path='python2-config',
         package = '',
         args = '--include',
         uselib_store = 'PYTHON2',
-        msg = "Checking for 'Python' headers",
+        msg = "Checking for Python headers",
     )
 
     # enable last C++ standard support
@@ -46,6 +55,8 @@ def configure(ctx):
 
 def build(ctx):
     # Build platform-independent code
+    baselib = ['ConfigOptsTree', 'Camera', 'CameraManager']
+
     ctx.objects(
         source = 'src/Node.cpp src/ConfigOptsTree.cpp',
         target = 'ConfigOptsTree'
@@ -63,7 +74,7 @@ def build(ctx):
 
     # Build backends
     backends = []
-    libs = []
+    libs = ['BOOST_REGEX']
 
     if ctx.env.HAVE_GPHOTO2 == 1:
         backends.append('backend_gphoto2')
@@ -86,6 +97,31 @@ def build(ctx):
         source = 'build/wrapper.cpp',
         target = 'cap2re',
         includes = ['INCLUDES_PYTHON2', './src'],
-        uselib = ['PYTHON2', 'BOOST_REGEX'] + libs,
-        use = ['Camera', 'CameraManager', 'ConfigOptsTree'] + backends
+        uselib = libs + ['PYTHON2'],
+        use = baselib + backends
+    )
+
+    # Build multithreaded test
+    ctx.program(
+        source = 'tests/mt-test.cpp',
+        target = 'mt-test',
+        includes = './src',
+        uselib = libs + ['BOOST_THREAD'],
+        use = baselib + backends
+    )
+
+    ctx.program(
+        source = 'tests/shoot_cam1.cpp',
+        target = 'shoot-cam1',
+        includes = './src',
+        uselib = libs,
+        use = baselib + backends
+    )
+
+    ctx.program(
+        source = 'tests/shoot_cam2.cpp',
+        target = 'shoot-cam2',
+        includes = './src',
+        uselib = libs,
+        use = baselib + backends
     )
