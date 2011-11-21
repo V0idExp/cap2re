@@ -82,8 +82,10 @@ Gphoto2CameraManager::detectCameras()
         gp_camera_set_port_info(cam, pi);
 
         // Add the camera object to camera list
-        _cameras.push_back(new Gphoto2Camera(cam, _context));
+        _cameras.push_back(new Gphoto2Camera(cam, gphoto2::gp_context_new()));
     }
+
+    gp_list_free(cl);
 
     return _cameras;
 }
