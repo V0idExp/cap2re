@@ -148,9 +148,15 @@ Gphoto2Camera::capture(const String &outDir)
     char tmpfilename[filename.length()+1];
     strcpy(tmpfilename, filename.c_str());
 
-    // Capture the image. For now, the result is stored on camera's memory (RAM or SD)
-    if(gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context) < GP_OK)
-        throw RuntimeError("something gone wrong when trying to capture image from gphoto2 camera");
+    // Capture the image. The result is stored on camera's memory (RAM or SD)
+    int err;
+    err = gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context);
+    if(err < GP_OK)
+    {
+        ostringstream error;
+        error << "something gone wrong while trying to capture image from gphoto2 camera, error: " << err;
+        throw RuntimeError(error.str());
+    }
 
     // Create a temporary file with a random name
     fd = mkstemp(tmpfilename);
