@@ -23,11 +23,22 @@
 #include "Gphoto2Camera.h"
 #include "Error.h"
 
+CameraManager*
+Gphoto2CameraManager::instance()
+{
+    static CameraManager *_inst = NULL;
+    if(!_inst)
+        _inst = new Gphoto2CameraManager;
+
+    return _inst;
+}
+
 Gphoto2CameraManager::Gphoto2CameraManager():
-    _context(gphoto2::gp_context_new())
+    _context(gphoto2::gp_context_new()),
+    _initialized(false)
 {
     if(!_context)
-        throw RuntimeError("Gphoto2CameraManager: can't initialize gPhoto2 context");
+        throw RuntimeError("Gphoto2CameraManager: can't initialize GPContext");
 }
 
 Gphoto2CameraManager::~Gphoto2CameraManager()
@@ -39,22 +50,30 @@ Gphoto2CameraManager::~Gphoto2CameraManager()
 CameraPtrList
 Gphoto2CameraManager::detectCameras()
 {
+    if(_initialized)
+        return _cameras;
+
     // Get the abilities list for current GP implementation
     gphoto2::CameraAbilitiesList* caList;
     gp_abilities_list_new(&caList); // init
-    gp_abilities_list_load(caList, _context); // populate
+
+    if(gp_abilities_list_load(caList, _context) < GP_OK)
+        throw RuntimeError("Gphoto2CameraManager: can't load abilities list");
 
     // Get information about system ports (USB, serial, etc.)
     gphoto2::GPPortInfoList* piList;
     gp_port_info_list_new(&piList); // init
-    gp_port_info_list_load(piList); // populate
+
+    if(gp_port_info_list_load(piList) < GP_OK)
+        throw RuntimeError("Gphoto2CameraManager: can't load port info list");
 
     // Prepare the camera list
     gphoto2::CameraList* cl;
     gp_list_new(&cl);
 
     // Autodetect attached cameras
-    gp_abilities_list_detect(caList, piList, cl, _context);
+    if(gp_abilities_list_detect(caList, piList, cl, _context) < GP_OK)
+        throw RuntimeError("Gphoto2CameraManager: can't detect attached cameras");
 
     for(int i = 0; i < gp_list_count(cl); i++)
     {
@@ -86,6 +105,8 @@ Gphoto2CameraManager::detectCameras()
     }
 
     gp_list_free(cl);
+
+    _initialized = true;
 
     return _cameras;
 }

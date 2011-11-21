@@ -32,14 +32,19 @@ namespace gphoto2
 class Gphoto2CameraManager : public CameraManager
 {
 public:
-    Gphoto2CameraManager();
+    static CameraManager*
+    instance();
+
     ~Gphoto2CameraManager();
 
     CameraPtrList
     detectCameras();
 
 private:
+    Gphoto2CameraManager();
+
     gphoto2::GPContext* _context;
+    bool                _initialized;
 };
 
 #endif // GPHOTO2CAMERAMANAGER_H
