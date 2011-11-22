@@ -20,13 +20,9 @@
  */
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <boost/regex.hpp>
 using namespace std;
 
-#include "ConfigOptsTree.h"
-#include "CameraManager.h"
+#include "Camera.h"
 #include "Gphoto2CameraManager.h"
 
 
@@ -35,7 +31,7 @@ int main()
     CameraManager *mgr = Gphoto2CameraManager::instance();
 
     CameraPtrList cams = mgr->detectCameras();
-    cout << "Camere rilevate: " << cams.size() << endl;
+    cout << "Detected cameras: " << cams.size() << endl;
 
     for(int i = 0; i < cams.size(); i++)
     {

@@ -4,7 +4,7 @@ import cap2re
 
 images = []
 
-camMgr = cap2re.Gphoto2CameraManager()
+camMgr = cap2re.Gphoto2CameraManager.instance()
 cameras = camMgr.detectCameras()
 
 for c in range(len(cameras)):
