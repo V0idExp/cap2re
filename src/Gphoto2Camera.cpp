@@ -27,6 +27,10 @@
 #include <cstring>
 using namespace std;
 
+#include <boost/thread.hpp>
+
+static boost::mutex captureMutex;
+
 void
 buildConfigTree(Node *node, gphoto2::CameraWidget *w)
 {
@@ -149,6 +153,9 @@ Gphoto2Camera::capture(const String &outDir)
     strcpy(tmpfilename, filename.c_str());
 
     // Capture the image. The result is stored on camera's memory (RAM or SD)
+    cout << "[" << boost::this_thread::get_id() << "]" << endl;
+    //boost::mutex::scoped_lock lock(captureLock);
+    captureMutex.lock();
     int err;
     err = gp_camera_capture(_camera, gphoto2::GP_CAPTURE_IMAGE, &out, _context);
     if(err < GP_OK)
@@ -157,6 +164,8 @@ Gphoto2Camera::capture(const String &outDir)
         error << "something gone wrong while trying to capture image from gphoto2 camera, error: " << err;
         throw RuntimeError(error.str());
     }
+
+    captureMutex.unlock();
 
     // Create a temporary file with a random name
     fd = mkstemp(tmpfilename);
