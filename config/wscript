@@ -82,7 +82,8 @@ def build(ctx):
 
         ctx.objects(
             source = 'src/Gphoto2Camera.cpp src/Gphoto2CameraManager.cpp',
-            target = 'backend_gphoto2'
+            target = 'backend_gphoto2',
+            uselib = ['BOOST_THREAD']
         )
 
     # Invoke SWIG and generate wrapping source file
