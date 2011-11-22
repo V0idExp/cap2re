@@ -37,6 +37,10 @@ public:
 
     virtual CameraPtrList
     detectCameras() = 0;
+
+    virtual StringList
+    captureFromAll(const String &outdir, bool parallelize = false) = 0;
+
     virtual CameraPtrList
     getCameras() const;
     virtual Camera*

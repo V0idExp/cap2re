@@ -40,11 +40,13 @@ public:
     CameraPtrList
     detectCameras();
 
+    StringList
+    captureFromAll(const String &outdir, bool parallelize = false);
+
 private:
     Gphoto2CameraManager();
 
     gphoto2::GPContext* _context;
-    bool                _initialized;
 };
 
 #endif // GPHOTO2CAMERAMANAGER_H

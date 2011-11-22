@@ -23,6 +23,13 @@
 #include "Gphoto2Camera.h"
 #include "Error.h"
 
+#include <iostream>
+using namespace std;
+
+#include <boost/thread.hpp>
+using namespace boost;
+
+
 CameraManager*
 Gphoto2CameraManager::instance()
 {
@@ -34,8 +41,7 @@ Gphoto2CameraManager::instance()
 }
 
 Gphoto2CameraManager::Gphoto2CameraManager():
-    _context(gphoto2::gp_context_new()),
-    _initialized(false)
+    _context(gphoto2::gp_context_new())
 {
     if(!_context)
         throw RuntimeError("Gphoto2CameraManager: can't initialize GPContext");
@@ -50,9 +56,6 @@ Gphoto2CameraManager::~Gphoto2CameraManager()
 CameraPtrList
 Gphoto2CameraManager::detectCameras()
 {
-    if(_initialized)
-        return _cameras;
-
     // Get the abilities list for current GP implementation
     gphoto2::CameraAbilitiesList* caList;
     gp_abilities_list_new(&caList); // init
@@ -105,9 +108,37 @@ Gphoto2CameraManager::detectCameras()
     }
 
     gp_list_free(cl);
-
-    _initialized = true;
-
     return _cameras;
 }
 
+void captureThread(Camera *cam, const String &outdir, String *file)
+{
+    *file = cam->capture(outdir);
+}
+
+StringList
+Gphoto2CameraManager::captureFromAll(const String &outdir, bool parallelize)
+{
+    StringList imageFiles(_cameras.size());
+
+    if(!parallelize)
+    {
+        for(int c = 0; c < _cameras.size(); c++)
+            imageFiles[c] = _cameras[c]->capture(outdir);
+    }
+    else
+    {
+        boost::thread threads[_cameras.size()];
+
+        for(int c = 0; c < _cameras.size(); c++)
+        {
+            threads[c] = thread(captureThread, _cameras[c], outdir, &imageFiles[c]);
+        }
+
+        for(int t = 0; t < _cameras.size(); t++)
+            threads[t].join();
+
+    }
+
+    return imageFiles;
+}
