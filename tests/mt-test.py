@@ -9,14 +9,16 @@ mgr.detectCameras()
 
 print "Initial shoot"
 t1 = time()
-mgr.captureFromAll("/tmp")
+for img in mgr.captureFromAll("/tmp"):
+    images.append(img)
 t2 = time() - t1
 print "Time: ",t2
 print
 
 print "Single-threaded shooting"
 t1 = time()
-mgr.captureFromAll("/tmp")
+for img in mgr.captureFromAll("/tmp"):
+    images.append(img)
 t2 = time() - t1
 print "Time: ",t2
 print
@@ -29,3 +31,10 @@ for i in range(10):
     t2 = time() - t1
     print "Time: ",t2
     print
+
+print
+print
+
+print "Image files: "
+for img in images:
+    print '   ',img

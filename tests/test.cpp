@@ -40,7 +40,9 @@ int main()
         cout << "Aperture size:\t" << cams[i]->getApertureSize() << endl;
         cout << "Exposure time:\t" << cams[i]->getExposureTime() << endl;
         cout << "Serial number:\t" << cams[i]->getSerialNo() << endl;
-        cams[i]->capture("/tmp");
+        String img = cams[i]->capture("/tmp");
+        cout << "Image saved in:\t" << img << endl;
+        cout << endl;
     }
 
     delete mgr;
