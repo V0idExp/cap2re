@@ -102,26 +102,19 @@ def build(ctx):
         use = baselib + backends
     )
 
-    # Build multithreaded test
+    # Build multithreading test
     ctx.program(
         source = 'tests/mt-test.cpp',
         target = 'mt-test',
-        includes = './src',
-        uselib = libs + ['BOOST_THREAD'],
-        use = baselib + backends
-    )
-
-    ctx.program(
-        source = 'tests/shoot_cam1.cpp',
-        target = 'shoot-cam1',
         includes = './src',
         uselib = libs,
         use = baselib + backends
     )
 
+    # Build single-thread capture test
     ctx.program(
-        source = 'tests/shoot_cam2.cpp',
-        target = 'shoot-cam2',
+        source = 'tests/test.cpp',
+        target = 'test',
         includes = './src',
         uselib = libs,
         use = baselib + backends
