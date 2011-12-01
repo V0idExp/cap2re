@@ -23,14 +23,15 @@ Cap2re makes use of several libraries, in order to build it you must have the
 folowing libs and tools installed:
 
     - C++ compiler and standard libraries, with support for C++11
-    - Boost with RegEx support
+    - Boost.RegEx
+    - Boost.Thread
     - Waf build tool
     - SWIG for Python wrapper
 
 To build the backends, which provide the actual functionality, you have
 to check if any of these libraries are installed:
 
-    - libgphoto2
+    - libgphoto2 (Unix-only, supports a lot of camera models)
     
 
 ==== 3. BUILDING ==== 
