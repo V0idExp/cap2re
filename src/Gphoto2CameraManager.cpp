@@ -23,8 +23,7 @@
 #include "Gphoto2Camera.h"
 #include "Error.h"
 
-#include <iostream>
-using namespace std;
+#include <sstream>
 
 #include <boost/thread.hpp>
 using namespace boost;
@@ -80,6 +79,8 @@ Gphoto2CameraManager::detectCameras()
 
     for(int i = 0; i < gp_list_count(cl); i++)
     {
+        std::ostringstream camName;
+        camName << "Camera" << i+1;
         const char *model, *portName;
         gphoto2::CameraAbilities ca;
         gphoto2::GPPortInfo pi;
@@ -104,7 +105,7 @@ Gphoto2CameraManager::detectCameras()
         gp_camera_set_port_info(cam, pi);
 
         // Add the camera object to camera list
-        _cameras.push_back(new Gphoto2Camera(cam, gphoto2::gp_context_new()));
+        _cameras.push_back(new Gphoto2Camera(camName.str(), cam, gphoto2::gp_context_new()));
     }
 
     gp_list_free(cl);

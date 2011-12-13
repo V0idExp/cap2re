@@ -21,8 +21,25 @@
 
 #include "Camera.h"
 
+Camera::Camera(const String &name):
+    _name(name)
+{
+}
+
 ConfigOptsTree*
 Camera::getConfiguration() const
 {
     return _config;
+}
+
+String
+Camera::getName() const
+{
+    return _name;
+}
+
+void
+Camera::setName(const String &name)
+{
+    _name = name;
 }

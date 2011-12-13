@@ -28,6 +28,8 @@
 class Camera
 {
 public:
+    Camera(const String &name);
+
     virtual
     ~Camera() {}
 
@@ -36,6 +38,11 @@ public:
 
     virtual String
     getSerialNo() const = 0;
+
+    virtual String
+    getName() const;
+    virtual void
+    setName(const String &name);
 
     virtual void
     setOption(const String &path, const String &value) = 0;
@@ -62,7 +69,8 @@ public:
     getApertureSizeValues() const = 0;
 
 protected:
-    ConfigOptsTree*  _config;
+    ConfigOptsTree* _config;
+    String          _name;
 };
 
 #endif // CAMERA_H

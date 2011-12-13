@@ -32,7 +32,7 @@ namespace gphoto2
 class Gphoto2Camera : public Camera
 {
 public:
-    Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
+    Gphoto2Camera(const String &name, gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context);
     ~Gphoto2Camera();
 
     String

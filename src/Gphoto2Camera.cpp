@@ -113,7 +113,8 @@ loadCameraConfiguration(gphoto2::Camera *gp2cam, gphoto2::GPContext *gp2context)
     return cfg;
 }
 
-Gphoto2Camera::Gphoto2Camera(gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
+Gphoto2Camera::Gphoto2Camera(const String &name, gphoto2::Camera *gp2Cam, gphoto2::GPContext *gp2Context):
+    Camera(name),
     _camera(gp2Cam),
     _context(gp2Context)
 {
@@ -144,7 +145,7 @@ Gphoto2Camera::capture(const String &outDir)
     int fd;
 
     // Path to file
-    String filename = outDir + "/imgXXXXXX";
+    String filename = outDir + "/" + _name + "_XXXXXX";
     char tmpfilename[filename.length()+1];
     strcpy(tmpfilename, filename.c_str());
 
