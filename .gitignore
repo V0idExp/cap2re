@@ -4,3 +4,7 @@ Capture.*
 img*
 src/config.h
 src/wrapper.cpp
+__init__.py*
+*.so
+cap2re.py*
+
