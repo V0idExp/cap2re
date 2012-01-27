@@ -47,11 +47,15 @@ And then run:
 
 On success, you'll have a build/ directory which contains libcap2re.so and
 cap2re.py. 
+
 To use Cap2re in your C++ project, grab the headers and libcap2re.so
 and place them in your project.
+
 To use Cap2re in your Python project, make a copy of libcap2re.so and call it
 _cap2re.so, place it with cap2re.py in your modules directory and it's ready to
-use.
+use:
+	build/libcap2re.so -> _cap2re.so
+	build/cap2re.py	-> cap2re.py
     
 For additional build options and actions, check out:
     

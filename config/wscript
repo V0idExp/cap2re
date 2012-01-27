@@ -90,12 +90,12 @@ def build(ctx):
     ctx(
         rule = "swig -c++ -python -I../src -o wrapper.cpp ${SRC}",
         source = 'config/swig_export.i',
-        target = 'cap2re.py wrapper.cpp'
+        target = ['cap2re.py', 'wrapper.cpp']
     )
 
     # Build python wrapper
     ctx.shlib(
-        source = 'build/wrapper.cpp',
+        source = 'wrapper.cpp',
         target = 'cap2re',
         includes = ['INCLUDES_PYTHON2', './src'],
         uselib = libs + ['PYTHON2'],
