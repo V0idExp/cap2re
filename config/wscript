@@ -42,7 +42,8 @@ def configure(ctx):
         package = '',
         args = '--include',
         uselib_store = 'PYTHON2',
-        msg = "Checking for Python headers"
+        msg = "Checking for Python headers",
+        mandatory=False
     )
 
     if not ctx.env.HAVE_PYTHON2:
@@ -51,7 +52,8 @@ def configure(ctx):
             package = '',
             args = '--include',
             uselib_store = 'PYTHON2',
-            msg = "Checking for Python headers"
+            msg = "Checking for Python headers",
+            mandatory=True
         )
 
     # enable last C++ standard support
