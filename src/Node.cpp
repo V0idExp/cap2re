@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2011 Ivan Nikolaev
  *
  * This file is part of cap2re.
@@ -30,8 +30,13 @@ Node::Node(const String &name, const StringList &options):
 
 Node::~Node()
 {
+    /*
     for(auto node: _children)
         delete node;
+    */
+    NodePtrList::iterator it;
+    for(it = _children.begin(); it != _children.end(); it++)
+        delete *it;
 }
 
 String
@@ -80,11 +85,20 @@ Node*
 Node::getChild(const String &name) const
 {
     // Check each child node for matching
+    /*
     for(auto node: _children)
         if(node->getName() == name)
             return node;
+    */
 
+    for(std::vector<Node*>::const_iterator it = _children.begin(); it != _children.end(); it++)
+        if((*it)->getName() == name)
+            return *it;
+
+    /*
     return nullptr;
+    */
+    return NULL;
 }
 
 NodePtrList

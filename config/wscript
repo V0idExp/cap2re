@@ -55,7 +55,7 @@ def configure(ctx):
         )
 
     # enable last C++ standard support
-    ctx.env.CXXFLAGS = ['-std=c++0x']
+	#ctx.env.CXXFLAGS = ['-std=c++0x']
 
     # build in debug mode
     ctx.env.CXXFLAGS += ['-ggdb', '-fPIC']

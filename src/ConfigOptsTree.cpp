@@ -103,13 +103,14 @@ ConfigOptsTree::addEntry(const String &path, const StringList &opts)
     Node *child;
 
     // Starting from root, go down the tree and create missing nodes
-    for(auto nodeName: nodes)
+    StringList::iterator nodeName;
+    for(nodeName = nodes.begin(); nodeName != nodes.end(); nodeName++)
     {
-        child = node->getChild(nodeName);
+        child = node->getChild(*nodeName);
 
         if(!child)
         {
-            child = new Node(nodeName, opts);
+            child = new Node(*nodeName, opts);
             node->addChild(child);
         }
 
@@ -126,9 +127,10 @@ ConfigOptsTree::getEntry(const String &path) const
 
     Node *node = _root;
 
-    for(auto nodeName: nodes)
+    StringList::iterator nodeName;
+    for(nodeName = nodes.begin(); nodeName != nodes.end(); nodeName++)
         if(node)
-            node = node->getChild(nodeName);
+            node = node->getChild(*nodeName);
         else
             break;
 
