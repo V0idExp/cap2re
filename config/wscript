@@ -45,6 +45,15 @@ def configure(ctx):
         msg = "Checking for Python headers",
     )
 
+    if not ctx.env.HAVE_PYTHON2:
+        ctx.check_cfg(
+            path='python2-config',
+            package = '',
+            args = '--include',
+            uselib_store = 'PYTHON2',
+            msg = "Checking for Python headers",
+        )
+
     # enable last C++ standard support
     ctx.env.CXXFLAGS = ['-std=c++0x']
 
