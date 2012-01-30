@@ -16,8 +16,9 @@ int main()
     images = mgr->captureFromAll("/tmp", false);
 
     cout << "Image files:" << endl;
-    for(auto img: images)
-        cout << "   " << img << endl;
+
+    for(StringList::iterator img = images.begin(); img != images.end(); img++)
+        cout << "   " << *img << endl;
 
     cout << endl;
 
@@ -25,8 +26,8 @@ int main()
     images = mgr->captureFromAll("/tmp", true);
 
     cout << "Image files:" << endl;
-    for(auto img: images)
-        cout << "   " << img << endl;
+    for(StringList::iterator img = images.begin(); img != images.end(); img++)
+        cout << "   " << *img << endl;
 
 
     delete mgr;

@@ -30,9 +30,9 @@ CameraManager::getCameras() const
 Camera*
 CameraManager::getCamera(const String &serialNo) const
 {
-    for(auto cam: _cameras)
-        if(cam->getSerialNo() == serialNo)
-            return cam;
+    for(CameraPtrList::const_iterator cam = _cameras.begin(); cam != _cameras.end(); cam++)
+        if((*cam)->getSerialNo() == serialNo)
+            return *cam;
 
-    return nullptr;
+    return NULL;
 }
