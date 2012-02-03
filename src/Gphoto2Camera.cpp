@@ -118,11 +118,11 @@ Gphoto2Camera::Gphoto2Camera(const String &name, gphoto2::Camera *gp2Cam, gphoto
     _camera(gp2Cam),
     _context(gp2Context)
 {
+    // Reference once
+    gp_camera_ref(gp2Cam);
+
     // Build and store camera configuration
     _config = loadCameraConfiguration(gp2Cam, gp2Context);
-
-    // Initialize the camera
-    gp_camera_init(_camera, _context);
 
 }
 

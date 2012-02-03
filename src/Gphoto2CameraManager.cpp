@@ -104,8 +104,12 @@ Gphoto2CameraManager::detectCameras()
         gp_camera_set_abilities(cam, ca);
         gp_camera_set_port_info(cam, pi);
 
+        int code = gp_camera_init(cam, _context);
+        if(code != GP_OK)
+            throw RuntimeError(gphoto2::gp_result_as_string(code));
+
         // Add the camera object to camera list
-        _cameras.push_back(new Gphoto2Camera(camName.str(), cam, gphoto2::gp_context_new()));
+        _cameras.push_back(new Gphoto2Camera(camName.str(), cam, _context));
     }
 
     gp_list_free(cl);
