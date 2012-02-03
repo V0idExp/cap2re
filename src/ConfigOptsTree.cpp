@@ -23,7 +23,7 @@
 #include "Error.h"
 
 #include <boost/regex.hpp>
-#include <iostream>
+#include <sstream>
 using namespace boost;
 using namespace std;
 
@@ -83,10 +83,12 @@ ConfigOptsTree::ConfigOptsTree(const char separator):
         throw ValueError("invalid separator '" + (String)&separator + "'");
 
     // Prepend the escape character if the separator is any of ^$.*+?|()[]{}\ characters
+    ostringstream sepstr;
     if(regex_match((String)&separator, special))
-        _separator = String("\\") + (String)&separator;
-    else
-        _separator = (String)&separator;
+        sepstr << "\\";
+
+    sepstr << separator;
+    _separator = sepstr.str();
 }
 
 ConfigOptsTree::~ConfigOptsTree()
