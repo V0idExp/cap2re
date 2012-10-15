@@ -170,6 +170,8 @@ Gphoto2Camera::capture(const String &outDir)
     if(gp_camera_file_get(_camera, out.folder, out.name, gphoto2::GP_FILE_TYPE_NORMAL, file, _context) < GP_OK)
         throw RuntimeError("can't download the image from camera to temporary file");
 
+    gp_file_unref(file);
+
     return tmpfilename;
 }
 
