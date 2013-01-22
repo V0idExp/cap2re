@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef CONFIGOPTSTREE_H
-#define CONFIGOPTSTREE_H
+#ifndef CAP2RE_CONFIG_OPTS_TREE_H
+#define CAP2RE_CONFIG_OPTS_TREE_H
 
 #include "Node.h"
 #include "Common.h"
@@ -52,4 +52,5 @@ private:
 	String  _separator;
 };
 
-#endif // CONFIGOPTSTREE_H
+// CAP2RE_CONFIG_OPTS_TREE_H
+#endif

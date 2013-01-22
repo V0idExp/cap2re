@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef CAMERAMANAGER_H
-#define CAMERAMANAGER_H
+#ifndef CAP2RE_CAMERA_MANAGER_H
+#define CAP2RE_CAMERA_MANAGER_H
 
 #include "Camera.h"
 #include "Common.h"
@@ -50,4 +50,5 @@ protected:
 	CameraPtrList   _cameras;
 };
 
-#endif // CAMERAMANAGER_H
+// CAP2RE_CAMERA_MANAGER_H
+#endif

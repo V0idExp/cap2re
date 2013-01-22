@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef CAP2RE_ERROR_H
+#define CAP2RE_ERROR_H
 
 #include "Common.h"
 
@@ -56,4 +56,5 @@ protected:
 	String  _description;
 };
 
-#endif // ERROR_H
+// CAP2RE_ERROR_H
+#endif

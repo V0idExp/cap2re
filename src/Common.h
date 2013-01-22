@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef CAP2RE_COMMON_H
+#define CAP2RE_COMMON_H
 
 #include <string>
 #include <vector>
@@ -30,4 +30,5 @@ typedef std::string         String;
 typedef std::vector<String> StringList;
 typedef std::exception      Error;
 
-#endif // COMMON_H
+// CAP2RE_COMMON_H
+#endif

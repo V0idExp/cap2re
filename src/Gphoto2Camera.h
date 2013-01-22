@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef GPHOTO2CAMERAIMP_H
-#define GPHOTO2CAMERAIMP_H
+#ifndef CAP2RE_GPHOTO2_CAMERA_H
+#define CAP2RE_GPHOTO2_CAMERA_H
 
 #include "Camera.h"
 #include "ConfigOptsTree.h"
@@ -69,4 +69,5 @@ private:
 	ConfigOptsTree*             _config;
 };
 
-#endif // GPHOTO2CAMERAIMP_H
+// CAP2RE_GPHOTO2_CAMERA_H
+#endif

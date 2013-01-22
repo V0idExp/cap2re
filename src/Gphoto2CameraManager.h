@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef GPHOTO2CAMERAMANAGER_H
-#define GPHOTO2CAMERAMANAGER_H
+#ifndef CAP2RE_GPHOTO2_CAMERA_MANAGER_H
+#define CAP2RE_GPHOTO2_CAMERA_MANAGER_H
 
 #include "CameraManager.h"
 
@@ -49,4 +49,5 @@ private:
 	gphoto2::GPContext* _context;
 };
 
-#endif // GPHOTO2CAMERAMANAGER_H
+// CAP2RE_GPHOTO2_CAMERA_MANAGER_H
+#endif

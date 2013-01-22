@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CAP2RE_CAMERA_H
+#define CAP2RE_CAMERA_H
 
 #include "Common.h"
 
@@ -61,4 +61,5 @@ protected:
 	String  _name;
 };
 
-#endif // CAMERA_H
+// CAP2RE_CAMERA_H
+#endif

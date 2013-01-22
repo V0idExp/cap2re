@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef NODE_H
-#define NODE_H
+#ifndef CAP2RE_NODE_H
+#define CAP2RE_NODE_H
 
 #include "Common.h"
 
@@ -66,4 +66,5 @@ protected:
 	String          _value;
 };
 
-#endif // NODE_H
+// CAP2RE_NODE_H
+#endif
