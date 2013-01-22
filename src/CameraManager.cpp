@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2011 Ivan Nikolaev
  *
  * This file is part of cap2re.
@@ -8,13 +8,13 @@
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * cap2re is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * cap2re is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with cap2re. 
+ * License along with cap2re.
  * If not, see http://www.gnu.org/licenses
  *
  */
@@ -24,15 +24,15 @@
 CameraPtrList
 CameraManager::getCameras() const
 {
-    return _cameras;
+	return _cameras;
 }
 
 Camera*
 CameraManager::getCamera(const String &serialNo) const
 {
-    for(CameraPtrList::const_iterator cam = _cameras.begin(); cam != _cameras.end(); cam++)
-        if((*cam)->getSerialNo() == serialNo)
-            return *cam;
+	for(CameraPtrList::const_iterator cam = _cameras.begin(); cam != _cameras.end(); cam++)
+		if((*cam)->getSerialNo() == serialNo)
+			return *cam;
 
-    return NULL;
+	return NULL;
 }

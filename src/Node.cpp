@@ -8,13 +8,13 @@
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * cap2re is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * cap2re is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with cap2re. 
+ * License along with cap2re.
  * If not, see http://www.gnu.org/licenses
  *
  */
@@ -22,87 +22,87 @@
 #include "Node.h"
 
 Node::Node(const String &name, const StringList &options):
-    _options(options),
-    _name(name)
+	_options(options),
+	_name(name)
 {
 
 }
 
 Node::~Node()
 {
-    /*
-    for(auto node: _children)
-        delete node;
-    */
-    NodePtrList::iterator it;
-    for(it = _children.begin(); it != _children.end(); it++)
-        delete *it;
+	/*
+	for(auto node: _children)
+		delete node;
+	*/
+	NodePtrList::iterator it;
+	for(it = _children.begin(); it != _children.end(); it++)
+		delete *it;
 }
 
 String
 Node::getName() const
 {
-    return _name;
+	return _name;
 }
 
 void
 Node::addOption(const String &opt)
 {
-    _options.push_back(opt);
+	_options.push_back(opt);
 }
 
 void
 Node::setOptions(const StringList &optsList)
 {
-    _options = optsList;
+	_options = optsList;
 }
 
 StringList
 Node::getOptions() const
 {
-    return _options;
+	return _options;
 }
 
 String
 Node::getValue() const
 {
-    return _value;
+	return _value;
 }
 
 void
 Node::setValue(const String &v)
 {
-    _value = v;
+	_value = v;
 }
 
 void
 Node::addChild(Node *n)
 {
-    _children.push_back(n);
+	_children.push_back(n);
 }
 
 Node*
 Node::getChild(const String &name) const
 {
-    // Check each child node for matching
-    /*
-    for(auto node: _children)
-        if(node->getName() == name)
-            return node;
-    */
+	// Check each child node for matching
+	/*
+	for(auto node: _children)
+		if(node->getName() == name)
+			return node;
+	*/
 
-    for(std::vector<Node*>::const_iterator it = _children.begin(); it != _children.end(); it++)
-        if((*it)->getName() == name)
-            return *it;
+	for(std::vector<Node*>::const_iterator it = _children.begin(); it != _children.end(); it++)
+		if((*it)->getName() == name)
+			return *it;
 
-    /*
-    return nullptr;
-    */
-    return NULL;
+	/*
+	return nullptr;
+	*/
+	return NULL;
 }
 
 NodePtrList
 Node::getChildren() const
 {
-    return _children;
+	return _children;
 }
