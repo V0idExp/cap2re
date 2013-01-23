@@ -1,13 +1,13 @@
-#include "Common.h"
-#include "Gphoto2CameraManager.h"
-#include "Camera.h"
+#include "Cap2re.h"
 
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    CameraManager *mgr = Gphoto2CameraManager::instance();
+    cap2re::initialize();
+
+    CameraManager *mgr;
     StringList images;
 
     mgr->detectCameras();
@@ -30,6 +30,6 @@ int main()
         cout << "   " << *img << endl;
 
 
-    delete mgr;
+    cap2re::shutdown();
     return 0;
 }

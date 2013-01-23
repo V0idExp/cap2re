@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2011 Ivan Nikolaev
  *
  * This file is part of cap2re.
@@ -8,13 +8,13 @@
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * cap2re is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * cap2re is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with cap2re. 
+ * License along with cap2re.
  * If not, see http://www.gnu.org/licenses
  *
  */
@@ -22,13 +22,13 @@
 #include <iostream>
 using namespace std;
 
-#include "Camera.h"
-#include "Gphoto2CameraManager.h"
-
+#include "Cap2re.h"
 
 int main()
 {
-    CameraManager *mgr = Gphoto2CameraManager::instance();
+    cap2re::initialize();
+
+    CameraManager *mgr;
 
     CameraPtrList cams = mgr->detectCameras();
     cout << "Detected cameras: " << cams.size() << endl;
@@ -45,6 +45,6 @@ int main()
         cout << endl;
     }
 
-    delete mgr;
+    cap2re::shutdown();
     return 0;
 }

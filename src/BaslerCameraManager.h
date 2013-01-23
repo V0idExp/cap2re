@@ -19,36 +19,20 @@
  *
  */
 
-#ifndef CAP2RE_CAMERA_MANAGER_H
-#define CAP2RE_CAMERA_MANAGER_H
+#ifndef CAP2RE_BASLER_CAMERA_MANAGER_H
+#define CAP2RE_BASLER_CAMERA_MANAGER_H
 
-#include "Camera.h"
-#include "Common.h"
+#include "CameraManager.h"
 
-#include <vector>
-
-typedef std::vector<Camera*> CameraPtrList;
-
-class CameraManager
+class BaslerCameraManager : public CameraManager
 {
 public:
-	virtual
-	~CameraManager() {}
+	BaslerCameraManager();
+	~BaslerCameraManager();
 
-	virtual CameraPtrList
-	detectCameras() = 0;
-
-	virtual StringList
-	captureFromAll(const String &outdir, bool parallelize = false);
-
-	virtual CameraPtrList
-	getCameras() const;
-	virtual Camera*
-	getCamera(const String &serialNo) const;
-
-protected:
-	CameraPtrList   _cameras;
+	CameraPtrList
+	detectCameras();
 };
 
-// CAP2RE_CAMERA_MANAGER_H
+// BASLER_CAMERA_MANAGER_H
 #endif

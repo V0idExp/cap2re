@@ -8,3 +8,4 @@ __init__.py*
 *.so
 cap2re.py*
 
+*.pyc

@@ -32,20 +32,13 @@ namespace gphoto2
 class Gphoto2CameraManager : public CameraManager
 {
 public:
-	static CameraManager*
-	instance();
-
+	Gphoto2CameraManager();
 	~Gphoto2CameraManager();
 
 	CameraPtrList
 	detectCameras();
 
-	StringList
-	captureFromAll(const String &outdir, bool parallelize = false);
-
 private:
-	Gphoto2CameraManager();
-
 	gphoto2::GPContext* _context;
 };
 

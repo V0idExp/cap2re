@@ -21,6 +21,16 @@
 
 #include "CameraManager.h"
 
+#include <boost/thread.hpp>
+using namespace boost;
+
+// Function invoked in each thread. The file argument must be the pointer to
+// an already allocated String object
+void captureThread(Camera *cam, const String &outdir, String *file)
+{
+	*file = cam->capture(outdir);
+}
+
 CameraPtrList
 CameraManager::getCameras() const
 {
@@ -35,4 +45,31 @@ CameraManager::getCamera(const String &serialNo) const
 			return *cam;
 
 	return NULL;
+}
+
+StringList
+CameraManager::captureFromAll(const String &outdir, bool parallelize)
+{
+	StringList imageFiles(_cameras.size());
+
+	if(!parallelize)
+	{
+		for(int c = 0; c < _cameras.size(); c++)
+			imageFiles[c] = _cameras[c]->capture(outdir);
+	}
+	else
+	{
+		boost::thread threads[_cameras.size()];
+
+		for(int c = 0; c < _cameras.size(); c++)
+		{
+			threads[c] = thread(captureThread, _cameras[c], outdir, &imageFiles[c]);
+		}
+
+		for(int t = 0; t < _cameras.size(); t++)
+			threads[t].join();
+
+	}
+
+	return imageFiles;
 }
