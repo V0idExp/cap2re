@@ -1,62 +1,90 @@
 ==== 1. DESCRIPTION ====
 
-Cap2re is a library for working with digital cameras. It can be used to capture
-images from camera, get and set camera options in a unified, backend (and
-camera model) independent manner.
+Cap2re is a library for working with digital cameras on Linux/UNIX systems. It
+can be used to get images from camera, query and set camera options in a
+unified, backend and camera model independent manner.
 
-It is written to be easy to use and extend, with a polite design and clean, 
-easy to understand API. 
+It is written to be easy to use and extend, with a polite design and clean, easy
+to understand API.
 
-The library is written in C++, but a Python wrapper is provided as well.
+The library is written in C++, but a SWIG-generated Python wrapper is provided
+as well.
 
 Cap2re is licensed under the terms of GNU LGPL v3, which allows you to freely
 copy, modify and distribuite it, under few restrictions:
     - If you do some modifications, you must make them available under same
-      terms.
+      terms when you distribute a software which makes use of the modified
+      version of cap2re.
     - If you plan to use Cap2re in a commercial closed-source project, you can
-      do it, as long as you link dinamically.
-
+      do it, as long as you link dinamically and explicitly declare somewhere
+      that your software uses LGPL-ed libraries.
 
 ==== 2. REQUIREMENTS ====
 
 Cap2re makes use of several libraries, in order to build it you must have the
 folowing libs and tools installed:
 
-    - C++ compiler and standard libraries, with support for C++11
+    - C++ compiler and standard libraries
     - Boost.RegEx
     - Boost.Thread
-    - Waf build tool
     - SWIG for Python wrapper
 
-To build the backends, which provide the actual functionality, you have
-to check if any of these libraries are installed:
+The actual functionality and camera support is provided by backends, currently
+these backends are available:
 
-    - libgphoto2 (Unix-only, supports a lot of camera models)
-    
+    - Gphoto2 backend. Supports a wide range of cameras, both serial and USB,
+      proprietary and PTP-compatible.
 
-==== 3. BUILDING ==== 
+      Requires:
+        - libgphoto2
+
+    - Basler backend. Provides support for Basler GiGE Vision cameras, which are
+      industrial quality high speed and resolution devices, connected via
+      GigaEtherenet port.
+
+      Requires:
+        - Pylon SDK V2.0 or later
+        - libjpeg
+
+==== 3. BUILDING ====
 
 To compile the library, check if you've met all the requirements and then just
 type from top directory:
 
-    $ waf configure
+    $ ./waf configure
 
-And then run:
+NOTE: By default, waf looks for Pylon SDK in system prefix, which normally is
+/usr/local, if you have Pylon SDK installed elsewhere, specify its root
+directory with --pylon-root option.
 
-    $ waf build
+Now run:
 
-On success, you'll have a build/ directory which contains libcap2re.so and
-cap2re.py. 
+    $ ./waf build
 
-To use Cap2re in your C++ project, grab the headers and libcap2re.so
-and place them in your project.
+On success, you'll have a 'build' directory which contains libcap2re.so and
+cap2re.py.
+
+To use Cap2re in your C++ project, grab the headers and libcap2re.so and place
+them in your project.
 
 To use Cap2re in your Python project, make a copy of libcap2re.so and call it
 _cap2re.so, place it with cap2re.py in your modules directory and it's ready to
-use:
-	build/libcap2re.so -> _cap2re.so
-	build/cap2re.py	-> cap2re.py
-    
+use: build/libcap2re.so -> _cap2re.so build/cap2re.py -> cap2re.py
+
 For additional build options and actions, check out:
-    
+
     $ waf --help
+
+==== 4. USAGE ====
+
+Regardless of which language you use, the common way to use the library looks
+like follows:
+
+    - Initialize the library by calling cap2re::initialize()
+    - Check which backends are available with cap2re::getAvailableBackends().
+      This function returns a list of backend names.
+    - Retrieve a pointer to the CameraManager of backend you intend to use with
+      cap2re::getBackend()
+    - Detect cameras by calling CameraManager's detectCameras() method
+    - Capture images via CameraManager or handling each camera individually.
+    - Clean-up by calling cap2re::shutdown()
