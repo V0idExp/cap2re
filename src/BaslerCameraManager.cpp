@@ -69,7 +69,7 @@ BaslerCameraManager::detectCameras() {
 		// Create the camera object of the first available camera.
 		// The camera object is used to set and get all available
 		// camera features.
-		BaslerCamera_t* cam = new BaslerCamera_t(pTl->CreateDevice(devices[0]));
+		BaslerCamera_t* cam = new BaslerCamera_t(pTl->CreateDevice(*it));
 		_cameras.push_back(new BaslerCamera(cam->GetDeviceInfo().GetSerialNumber().c_str(), cam));
 	}
 

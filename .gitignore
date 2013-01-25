@@ -9,3 +9,4 @@ __init__.py*
 cap2re.py*
 
 *.pyc
+.waf*/
