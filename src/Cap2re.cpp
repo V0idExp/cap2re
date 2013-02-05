@@ -38,6 +38,9 @@ static BackendsMap gBackends;
 
 void
 cap2re::initialize() {
+	// just ensure that we don't leave any memory around
+	cap2re::shutdown();
+
 #if HAVE_GPHOTO2
 	gBackends["libgphoto2"] = new Gphoto2CameraManager;
 #endif

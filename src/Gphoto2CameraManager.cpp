@@ -34,6 +34,9 @@ Gphoto2CameraManager::Gphoto2CameraManager():
 
 Gphoto2CameraManager::~Gphoto2CameraManager()
 {
+	for(CameraPtrList::iterator cam = _cameras.begin(); cam != _cameras.end(); cam++)
+		delete *cam;
+
 	// Unreference the context, when the reference count goes to 0, gphoto2 frees the object
 	gphoto2::gp_context_unref(_context);
 }
@@ -41,6 +44,12 @@ Gphoto2CameraManager::~Gphoto2CameraManager()
 CameraPtrList
 Gphoto2CameraManager::detectCameras()
 {
+	// Destroy any existing camera
+	if(_cameras.size()) {
+		for(CameraPtrList::iterator cam = _cameras.begin(); cam != _cameras.end(); cam++)
+			delete *cam;
+	}
+
 	// Get the abilities list for current GP implementation
 	gphoto2::CameraAbilitiesList* caList;
 	gp_abilities_list_new(&caList); // init

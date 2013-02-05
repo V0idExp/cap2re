@@ -56,7 +56,7 @@ BaslerCameraManager::detectCameras() {
 
 	// Exit the application if the specific transport layer is not available
 	if (!pTl)
-		throw RuntimeError("Failed to create transport layer!");
+		throw RuntimeError("BaslerCameraManager: Failed to create transport layer!");
 
 	// Get all attached cameras and exit the application if no camera is found
 	Pylon::DeviceInfoList_t devices;
@@ -69,8 +69,12 @@ BaslerCameraManager::detectCameras() {
 		// Create the camera object of the first available camera.
 		// The camera object is used to set and get all available
 		// camera features.
-		BaslerCamera_t* cam = new BaslerCamera_t(pTl->CreateDevice(*it));
-		_cameras.push_back(new BaslerCamera(cam->GetDeviceInfo().GetSerialNumber().c_str(), cam));
+		try {
+			BaslerCamera_t* cam = new BaslerCamera_t(pTl->CreateDevice(*it));
+			_cameras.push_back(new BaslerCamera(cam->GetDeviceInfo().GetSerialNumber().c_str(), cam));
+		} catch(GenICam::GenericException e) {
+			throw RuntimeError(String("BaslerCameraManager: Error occurred while trying to create Camera object:\n") + e.what());
+		}
 	}
 
 	return _cameras;

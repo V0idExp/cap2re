@@ -5,7 +5,13 @@ from waflib.Configure import conf
 
 def options(opt):
 	opt.load('compiler_cxx')
-	opt.add_option('--pylon-root', action='store', default='', dest='pylon_root')
+	opt.add_option(
+		'--pylon-root',
+		action='store',
+		default='',
+		dest='pylon_root',
+		help='Path to Pylon SDK installation directory'
+	)
 
 @conf
 def check_pylon(ctx):

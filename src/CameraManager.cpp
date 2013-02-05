@@ -21,8 +21,10 @@
 
 #include "CameraManager.h"
 
-#include <boost/thread.hpp>
-using namespace boost;
+#if HAVE_BOOST_THREAD
+	#include <boost/thread.hpp>
+	using namespace boost;
+#endif
 
 // Function invoked in each thread. The file argument must be the pointer to
 // an already allocated String object
@@ -52,11 +54,16 @@ CameraManager::captureFromAll(const String &outdir, bool parallelize)
 {
 	StringList imageFiles(_cameras.size());
 
+#if HAVE_BOOST_THREAD == 0
+	parallelize = false;
+#endif
+
 	if(!parallelize)
 	{
 		for(int c = 0; c < _cameras.size(); c++)
 			imageFiles[c] = _cameras[c]->capture(outdir);
 	}
+#if HAVE_BOOST_THREAD
 	else
 	{
 		boost::thread threads[_cameras.size()];
@@ -70,6 +77,7 @@ CameraManager::captureFromAll(const String &outdir, bool parallelize)
 			threads[t].join();
 
 	}
+#endif
 
 	return imageFiles;
 }
