@@ -148,6 +148,8 @@ BaslerCamera::setExposureTime(const String& value) {
 	int i;
 
 	s >> i;
+
+	i = ((i - _cam->ExposureTimeRaw.GetMin()) / _cam->ExposureTimeRaw.GetInc()) * _cam->ExposureTimeRaw.GetInc() + _cam->ExposureTimeRaw.GetMin();
 	_cam->ExposureTimeRaw.SetValue(i);
 }
 

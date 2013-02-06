@@ -1,5 +1,8 @@
 #include <Python.h>
 #include "Cap2re.h"
+#include "Error.h"
+#include <iostream>
+using namespace std;
 
 typedef struct {
 	PyObject_HEAD
@@ -57,7 +60,7 @@ Camera_capture(CameraWrap* self, PyObject* args) {
 	if(self->camObj) {
 		try {
 			filename = PyString_FromString(self->camObj->capture(destdir).c_str());
-		} catch(Error e) {
+		} catch(RuntimeError &e) {
 			PyErr_SetString(PyExc_RuntimeError, e.what());
 			return NULL;
 		}
@@ -220,7 +223,7 @@ CameraManager_detectCameras(CameraManagerWrap* self, PyObject* args) {
 			PyObject* pycam = Camera_new(cameras[c]);
 			PyList_SetItem(list, c, pycam);
 		}
-	} catch(Error e) {
+	} catch(RuntimeError &e) {
 		PyErr_SetString(PyExc_RuntimeError, e.what());
 		return NULL;
 	}
@@ -245,7 +248,7 @@ CameraManager_captureFromAll(CameraManagerWrap* self, PyObject* args) {
 		for(int i = 0; i < imageFiles.size(); i++) {
 			PyList_SetItem(list, i, PyString_FromString(imageFiles[i].c_str()));
 		}
-	} catch(Error e) {
+	} catch(RuntimeError &e) {
 		PyErr_SetString(PyExc_RuntimeError, e.what());
 		return NULL;
 	}
