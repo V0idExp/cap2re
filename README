@@ -7,16 +7,15 @@ unified, backend and camera model independent manner.
 It is written to be easy to use and extend, with a polite design and clean, easy
 to understand API.
 
-The library is written in C++, but a SWIG-generated Python wrapper is provided
-as well.
+The library is written in C++, but a Python wrapper is provided as well.
 
-Cap2re is licensed under the terms of GNU LGPL v3, which allows you to freely
-copy, modify and distribuite it, under few restrictions:
+Cap2re is licensed under the terms of GNU LGPL v3, which allows you to copy,
+modify and redistribute it under few restrictions:
     - If you do some modifications, you must make them available under same
       terms when you distribute a software which makes use of the modified
       version of cap2re.
     - If you plan to use Cap2re in a commercial closed-source project, you can
-      do it, as long as you link dinamically and explicitly declare somewhere
+      do it, as long as you link dynamically and explicitly declare somewhere
       that your software uses LGPL-ed libraries.
 
 ==== 2. REQUIREMENTS ====
@@ -25,9 +24,8 @@ Cap2re makes use of several libraries, in order to build it you must have the
 folowing libs and tools installed:
 
     - C++ compiler and standard libraries
-    - Boost.RegEx
-    - Boost.Thread
-    - SWIG for Python wrapper
+    - Boost.Thread for simultaneous acquisition from multiple cameras
+    - Python headers if you want the wrapper
 
 The actual functionality and camera support is provided by backends, currently
 these backends are available:
@@ -37,10 +35,11 @@ these backends are available:
 
       Requires:
         - libgphoto2
+        - Boost.Regex
 
     - Basler backend. Provides support for Basler GiGE Vision cameras, which are
-      industrial quality high speed and resolution devices, connected via
-      GigaEtherenet port.
+      industrial quality high speed and resolution devices, connected via Giga
+      Ethernet port.
 
       Requires:
         - Pylon SDK V2.0 or later
@@ -53,23 +52,19 @@ type from top directory:
 
     $ ./waf configure
 
-NOTE: By default, waf looks for Pylon SDK in system prefix, which normally is
-/usr/local, if you have Pylon SDK installed elsewhere, specify its root
-directory with --pylon-root option.
-
 Now run:
 
     $ ./waf build
 
 On success, you'll have a 'build' directory which contains libcap2re.so and
-cap2re.py.
+libpycap2re.so.
 
 To use Cap2re in your C++ project, grab the headers and libcap2re.so and place
 them in your project.
 
-To use Cap2re in your Python project, make a copy of libcap2re.so and call it
-_cap2re.so, place it with cap2re.py in your modules directory and it's ready to
-use: build/libcap2re.so -> _cap2re.so build/cap2re.py -> cap2re.py
+To use Cap2re in your Python project, make a copy of libpycap2re.so, rename it
+to cap2re.so and place it into your Python modules path. It's then sufficient
+just to import the module.
 
 For additional build options and actions, check out:
 
@@ -83,8 +78,8 @@ like follows:
     - Initialize the library by calling cap2re::initialize()
     - Check which backends are available with cap2re::getAvailableBackends().
       This function returns a list of backend names.
-    - Retrieve a pointer to the CameraManager of backend you intend to use with
-      cap2re::getBackend()
+    - Retrieve the instance of CameraManager for the backend you intend to use
+      with cap2re::getBackend()
     - Detect cameras by calling CameraManager's detectCameras() method
-    - Capture images via CameraManager or handling each camera individually.
-    - Clean-up by calling cap2re::shutdown()
+    - Capture images via CameraManager or directly from Camera objects
+    - Clean-up by calling cap2re::shutdown() when you've finished.
